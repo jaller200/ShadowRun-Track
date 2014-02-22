@@ -99,20 +99,26 @@
     //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     //BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
     
-    NSString *mileKilos = [p mileKilos];
+    //NSString *mileKilos = [p mileKilos];
     
-    if ([mileKilos isEqualToString:@"miles"]) {
+    [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f Pace", [p avgMph]]];
+    
+    /*if ([mileKilos isEqualToString:@"miles"]) {
         [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f MPH", [p avgMph]]];
     } else {
         [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f KPH", [p avgMph]]];
-    }
+    }*/
     
-    if ([[[cell mphTitle] text] isEqualToString:@"0.00 MPH"] || [[[cell mphTitle] text] isEqualToString:@"nan MPH"] || [[[cell mphTitle] text] isEqualToString:@"0.00 KPH"] || [[[cell mphTitle] text] isEqualToString:@"nan KPH"] || [[[cell mphTitle] text] isEqualToString:@"inf MPH"] || [[[cell mphTitle] text] isEqualToString:@"inf KPH"]) {
+    /*if ([[[cell mphTitle] text] isEqualToString:@"0.00 MPH"] || [[[cell mphTitle] text] isEqualToString:@"nan MPH"] || [[[cell mphTitle] text] isEqualToString:@"0.00 KPH"] || [[[cell mphTitle] text] isEqualToString:@"nan KPH"] || [[[cell mphTitle] text] isEqualToString:@"inf MPH"] || [[[cell mphTitle] text] isEqualToString:@"inf KPH"]) {
         if ([mileKilos isEqualToString:@"miles"]) {
             [[cell mphTitle] setText:@"0.00 MPH"];
         } else {    
             [[cell mphTitle] setText:@"0.00 KPH"];
         }
+    }*/
+    
+    if ([[[cell mphTitle] text] isEqualToString:@"0.00"] || [[[cell mphTitle] text] isEqualToString:@"nan"] || [[[cell mphTitle] text] isEqualToString:@"inf"]) {
+        [[cell mphTitle] setText:@"0.00"];
     }
     
     if ([[[cell runTitle] text] isEqualToString:@""]) {

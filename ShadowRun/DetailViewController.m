@@ -148,8 +148,8 @@
     }
     
     if (isNewRun) {
-        [mphAverageLabelLabel setHidden:YES];
-        [mphAverageLabel setHidden:YES];
+        //[mphAverageLabelLabel setHidden:YES];
+        //[mphAverageLabel setHidden:YES];
     }
     
     runTypeField.delegate = self;
@@ -242,7 +242,8 @@
         [textViewView setText:[run runNotes]];
     }
     
-    [self calculateMph];
+    //[self calculateMph];
+    [self calculateAveragePace];
     
     NSLog(@"DetailViewController - IsNewRun = %d", isNewRun);
     
@@ -280,6 +281,10 @@
         }
     }
     
+    if ([[mphAverageLabel text] isEqualToString:@"nan"] || [[mphAverageLabel text] isEqualToString:@"inf"]) {
+        [mphAverageLabel setText:@"0.00"];
+    }
+    
     [temperatureField setTag:2015];
     [temperatureField setDelegate:self];
 }
@@ -309,8 +314,11 @@
     
     NSLog(@"%f", [run speed]);
     
-    float avgMph = [self calculateMph];
-    [run setAvgMph:avgMph];
+    //float avgMph = [self calculateMph];
+    //[run setAvgMph:avgMph];
+    
+    float avgPace = [self calculateAveragePace];
+    [run setAvgMph:avgPace];
     
     BOOL success = [[ShadowRunStore sharedStore] saveChanges];
     if (success) {
@@ -1117,8 +1125,136 @@
 
 #pragma mark - MPH Methods
 
+- (float)calculateAveragePace
+{
+    /*NSString *timeString = [timeField text];
+    NSString *fractionPart;
+    
+    for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 10; y++) {
+            NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%d%d", x, y]];
+            
+            if (range.location != NSNotFound) {
+                fractionPart = [NSString stringWithFormat:@"%d%d", x, y];
+                
+                timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
+                break;
+            }
+            
+            break;
+        }
+        
+        //NSRange newRange = [timeString rangeOfString:[NSString stringWithFormat:@".%d", x]];
+        
+        if (newRange.location != NSNotFound) {
+            fractionPart = [NSString stringWithFormat:@".%d", x];
+            timeString = [timeString stringByReplacingCharactersInRange:newRange withString:@""];
+            break;
+        }
+    }
+    
+    float minutesSec = [timeString floatValue] * 60;
+    float seconds = [fractionPart floatValue];
+    float distance = [[distanceField text] floatValue];
+    
+    float averagePace = ((minutesSec + seconds)/distance)/60;
+    
+    NSLog(@"averagePace = %f", averagePace);
+    
+    [mphAverageLabel setText:[NSString stringWithFormat:@"%.2f", averagePace]];
+    
+    return averagePace;*/
+    
+    NSString *timeString = [timeField text];
+    NSLog(@"timeString = %@", timeString);
+    
+    NSString *fractionPart = @"00";
+    float timeStringFloat;
+    float fractionPartFloat;
+    
+    for (int x = 0; x < 10; x++) {
+        for (int y = 0; y < 10; y++) {
+            NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%d%d", x, y]];
+            NSLog(@".%d%d", x, y);
+            
+            
+            if (range.location != NSNotFound) {
+                fractionPart = [NSString stringWithFormat:@"%d%d", x, y];
+                
+                timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
+                
+                timeStringFloat = [timeString floatValue];
+                fractionPartFloat = [fractionPart floatValue];
+                
+                NSLog(@"fractionPart = %f, wholeNumber = %f", fractionPartFloat, timeStringFloat);
+            } else {
+                NSLog(@"Not found!");
+            }
+        }
+        
+        NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%d", x]];
+        NSLog(@".%d", x);
+        
+        if (range.location != NSNotFound) {
+            int zero = 0;
+            
+            fractionPart = [NSString stringWithFormat:@"%d%d", x, zero];
+            
+            timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
+            
+            timeStringFloat = [timeString floatValue];
+            fractionPartFloat = [fractionPart floatValue];
+        } else {
+            NSLog(@"Not found!");
+        }
+    }
+    
+    float minutesSec = [timeString floatValue] * 60;
+    float seconds = [fractionPart floatValue];
+    float distance = [[distanceField text] floatValue];
+    NSLog(@"distance floatValue = %f", distance);
+    
+    float averagePace = ((minutesSec + seconds)/distance)/60;
+    
+    NSLog(@"averagePace = %f", averagePace);
+    
+    [mphAverageLabel setText:[NSString stringWithFormat:@"%.2f", averagePace]];
+    
+    if ([[mphAverageLabel text] isEqualToString:@"nan"] || [[mphAverageLabel text] isEqualToString:@"inf"]) {
+        [mphAverageLabel setText:@"0.00"];
+    }
+    
+    return averagePace;
+}
+
 - (float)calculateMph
 {
+    /*NSString *timeString = [timeField text];
+    NSString *fractionPart;
+    
+    for (float x = 0; x < 10; x++) {
+        for (float y = 0; y < 10; y++) {
+            NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%f%f", x, y]];
+            
+            if (range.location != NSNotFound) {
+                fractionPart = [NSString stringWithFormat:@"%f%f", x, y];
+                
+                timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
+                break;
+            }
+        }
+    }
+    
+    float minutesSec = [timeString floatValue] * 60;
+    float seconds = [fractionPart floatValue];
+    float distance = [[distanceField text] floatValue];
+    
+    float averagePace = ((minutesSec + seconds)/distance)/60;
+    
+    NSLog(@"averagePace = %f", averagePace);
+    
+    return averagePace;*/
+    
     float miles = [[distanceField text] floatValue];
     float timeInMin = [[timeField text] floatValue];
     
@@ -1247,7 +1383,8 @@
     
     [UIView commitAnimations];
     
-    [self calculateMph];
+    //[self calculateMph];
+    [self calculateAveragePace];
 }
 
 - (IBAction)hidePickerView:(id)sender

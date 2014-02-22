@@ -78,6 +78,7 @@
 - (IBAction)dismissKeyboard:(id)sender;
 
 - (float)calculateMph;
+- (float)calculateAveragePace;
 
 - (IBAction)changeMilesKilos:(id)sender;
 - (IBAction)changeDegreesCelcius:(id)sender;
