@@ -33,11 +33,6 @@
                         <constraint firstAttribute="width" constant="320" id="Gld-FF-eij"/>
                     </constraints>
                     <items>
-                        <barButtonItem title="TOS" id="Qio-ll-yEs">
-                            <connections>
-                                <action selector="openTOS:" destination="-1" id="sEz-yC-HcM"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="YEo-vW-agZ"/>
                         <barButtonItem title="Settings" id="BdQ-Ui-Opa">
                             <connections>
@@ -45,11 +40,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="f9I-Hq-BbP"/>
-                        <barButtonItem title="EULA" id="5cQ-SI-hvI">
-                            <connections>
-                                <action selector="openEULA:" destination="-1" id="bEZ-KV-FXm"/>
-                            </connections>
-                        </barButtonItem>
                     </items>
                 </toolbar>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="© 2013 ShadowPress. All Rights Reserved." translatesAutoresizingMaskIntoConstraints="NO" id="lxJ-Wo-9Aw">

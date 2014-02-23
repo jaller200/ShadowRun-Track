@@ -20,7 +20,7 @@
     if (self) {
         UINavigationItem *n = [self navigationItem];
         
-        [n setTitle:@"ShadowRun"];
+        [n setTitle:@"ShadowRun Track"];
         
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRun:)];
         

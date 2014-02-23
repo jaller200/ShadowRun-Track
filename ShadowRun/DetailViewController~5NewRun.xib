@@ -44,13 +44,13 @@
                     <rect key="frame" x="109" y="125" width="191" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Run Distance" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9cs-tq-Cx0">
                     <rect key="frame" x="109" y="163" width="191" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jc-us-MZd">
                     <rect key="frame" x="20" y="129" width="81" height="21"/>
@@ -137,7 +137,7 @@
                     <rect key="frame" x="123" y="277" width="177" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                    <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                 </textField>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Temperature" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfa-0p-77h">
                     <rect key="frame" x="20" y="281" width="96" height="21"/>

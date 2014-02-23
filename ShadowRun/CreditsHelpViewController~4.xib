@@ -21,11 +21,6 @@
                     <rect key="frame" x="0.0" y="387" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="TOS" id="6Vw-GR-ANw">
-                            <connections>
-                                <action selector="openTOS:" destination="-1" id="Uiv-9r-hTv"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="1BH-bZ-YTa"/>
                         <barButtonItem title="Settings" id="R1B-Jz-wSA">
                             <connections>
@@ -33,11 +28,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="2m1-7d-wnM"/>
-                        <barButtonItem title="EULA" id="zxS-bH-nbh">
-                            <connections>
-                                <action selector="openEULA:" destination="-1" id="Otg-C3-a1e"/>
-                            </connections>
-                        </barButtonItem>
                     </items>
                 </toolbar>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="© 2013 ShadowPress. All Rights Reserved." translatesAutoresizingMaskIntoConstraints="NO" id="Bc1-3M-rKT">
