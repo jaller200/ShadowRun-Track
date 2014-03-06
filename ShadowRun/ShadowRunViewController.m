@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 9/21/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import "ShadowRunViewController.h"
@@ -43,13 +42,13 @@
 {
     [super viewDidLoad];
     
+    // Register TableView Cell NIB
     UINib *nib = [UINib nibWithNibName:@"ShadowRunItemCell" bundle:nil];
-    
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"ShadowRunItemCell"];
     
-    //UIColor *clr = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
     [[self view] setAlpha:0.85];
     
+    // Set backgrounds for both 3.5" and 4.0" screens
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
     [imageView setFrame:self.tableView.frame];
     
@@ -61,21 +60,15 @@
     } else {
         self.tableView.backgroundView = imageView;
     }
-    [[self tableView] reloadData];
     
-    //[[self view] setBackgroundColor:clr];
+    // Reload the tableView
+    [[self tableView] reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     NSLog(@"ShadowRunViewController - ViewWillAppear");
-    
-    [[ShadowRunStore sharedStore] loadAllRuns];
-    
-    [self.tableView reloadData];
-    
-    [self.view setNeedsDisplay];
 }
 
 #pragma mark - TableView Functions
@@ -87,6 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Initialize the cell
     ShadowRun *p = [[[ShadowRunStore sharedStore] allRuns] objectAtIndex:[indexPath row]];
     
     ShadowRunItemCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShadowRunItemCell"];
@@ -95,27 +89,7 @@
     [cell setTableView:tableView];
     
     [[cell runTitle] setText:[p runTitle]];
-    
-    //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    //BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
-    
-    //NSString *mileKilos = [p mileKilos];
-    
     [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f Pace", [p avgMph]]];
-    
-    /*if ([mileKilos isEqualToString:@"miles"]) {
-        [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f MPH", [p avgMph]]];
-    } else {
-        [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f KPH", [p avgMph]]];
-    }*/
-    
-    /*if ([[[cell mphTitle] text] isEqualToString:@"0.00 MPH"] || [[[cell mphTitle] text] isEqualToString:@"nan MPH"] || [[[cell mphTitle] text] isEqualToString:@"0.00 KPH"] || [[[cell mphTitle] text] isEqualToString:@"nan KPH"] || [[[cell mphTitle] text] isEqualToString:@"inf MPH"] || [[[cell mphTitle] text] isEqualToString:@"inf KPH"]) {
-        if ([mileKilos isEqualToString:@"miles"]) {
-            [[cell mphTitle] setText:@"0.00 MPH"];
-        } else {    
-            [[cell mphTitle] setText:@"0.00 KPH"];
-        }
-    }*/
     
     if ([[[cell mphTitle] text] isEqualToString:@"0.00"] || [[[cell mphTitle] text] isEqualToString:@"nan"] || [[[cell mphTitle] text] isEqualToString:@"inf"]) {
         [[cell mphTitle] setText:@"0.00"];
@@ -147,6 +121,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Add ability to delete
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         ShadowRunStore *ps = [ShadowRunStore sharedStore];
         NSArray *runs = [ps allRuns];
@@ -155,6 +130,7 @@
         
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
+        // Save after deletion
         BOOL success = [[ShadowRunStore sharedStore] saveChanges];
         if (success) {
             NSLog(@"ShadowRunViewController - Saved all runs.");

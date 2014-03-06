@@ -4,13 +4,11 @@
 //
 //  Created by The Doctor on 9/24/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import "MusicViewController.h"
 
-//#define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen] bounds].size.height - (double)568) < DBL_EPSILON)
-
+// Uses MediaKit Framework
 @implementation MusicViewController
 @synthesize musicPlayer;
 
@@ -104,10 +102,6 @@
     }
 }
 
-- (void)handle_VolumeChanged:(id)notification
-{
-    [volumeSlider setValue:[musicPlayer volume]];
-}
 
 #pragma mark - Notification Center
 
@@ -121,10 +115,6 @@
     [notificationCenter addObserver:self
                            selector:@selector(handle_PlaybackStateChanged:)
                                name:MPMusicPlayerControllerPlaybackStateDidChangeNotification
-                             object:musicPlayer];
-    [notificationCenter addObserver:self
-                           selector:@selector(handle_VolumeChanged:)
-                               name:MPMusicPlayerControllerVolumeDidChangeNotification
                              object:musicPlayer];
     [musicPlayer beginGeneratingPlaybackNotifications];
 }
@@ -174,11 +164,6 @@
 - (IBAction)nextSong:(id)sender
 {
     [musicPlayer skipToNextItem];
-}
-
-- (IBAction)volumeChanged:(id)sender
-{
-    [musicPlayer setVolume:[volumeSlider value]];
 }
 
 #pragma mark - Dealloc

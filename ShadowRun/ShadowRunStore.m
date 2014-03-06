@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 8/30/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke
 //
 
 #import "ShadowRunStore.h"

@@ -4,12 +4,12 @@
 //
 //  Created by The Doctor on 9/24/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import <UIKit/UIKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+// Uses MediaKit Framework
 @interface MusicViewController : UIViewController <MPMediaPickerControllerDelegate>
 {
     __weak IBOutlet UIImageView *artworkImageView;
@@ -30,7 +30,6 @@
 - (IBAction)previousSong:(id)sender;
 - (IBAction)playPause:(id)sender;
 - (IBAction)nextSong:(id)sender;
-- (IBAction)volumeChanged:(id)sender;
 
 - (void)registerMediaPlayerNotifications;
 

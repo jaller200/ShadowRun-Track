@@ -30,9 +30,4 @@
 
 - (IBAction)backgroundTapped:(id)sender;
 
-// Saving
-- (IBAction)save:(id)sender;
-- (IBAction)load:(id)sender;
-- (IBAction)getFilePath:(id)sender;
-
 @end

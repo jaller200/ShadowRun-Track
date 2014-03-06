@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB1AEAB518B6CEAA003AB73D /* GoogleWeatherAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1AEAB418B6CEAA003AB73D /* GoogleWeatherAPI.m */; };
 		AB242E80184A32B700026204 /* Help.png in Resources */ = {isa = PBXBuildFile; fileRef = AB242E7E184A32B700026204 /* Help.png */; };
 		AB242E81184A32B700026204 /* Help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB242E7F184A32B700026204 /* Help@2x.png */; };
-		AB3337A7187DDF8800F6A8CC /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3337A6187DDF8800F6A8CC /* ILTranslucentView.m */; };
 		AB4B4FE417EE41C80046E546 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4FE317EE41C80046E546 /* Foundation.framework */; };
 		AB4B4FE617EE41C80046E546 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4FE517EE41C80046E546 /* CoreGraphics.framework */; };
 		AB4B4FE817EE41C80046E546 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB4B4FE717EE41C80046E546 /* UIKit.framework */; };
@@ -31,12 +29,9 @@
 		AB4B502817EE44FB0046E546 /* ShadowRun.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB4B502617EE44FB0046E546 /* ShadowRun.xcdatamodeld */; };
 		AB4B502B17EE457D0046E546 /* ShadowRun.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4B502A17EE457D0046E546 /* ShadowRun.m */; };
 		AB4B502E17EE46030046E546 /* ShadowRunViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4B502D17EE46030046E546 /* ShadowRunViewController.m */; };
-		AB4B503017EE77510046E546 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AB4B502F17EE77510046E546 /* Settings.bundle */; };
 		AB4B503417EE78010046E546 /* Lopez-4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4B503117EE78010046E546 /* Lopez-4.jpg */; };
 		AB4B503517EE78010046E546 /* Run.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4B503217EE78010046E546 /* Run.png */; };
 		AB4B503617EE78010046E546 /* Run@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4B503317EE78010046E546 /* Run@2x.png */; };
-		AB8F12E918AEAD7300A51AAF /* ShadowClocksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8F12E718AEAD7300A51AAF /* ShadowClocksViewController.m */; };
-		AB8F12EA18AEAD7300A51AAF /* ShadowClocksViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8F12E818AEAD7300A51AAF /* ShadowClocksViewController~5.xib */; };
 		AB9CDBB4184915ED00EC7E8B /* Alarm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBB0184915ED00EC7E8B /* Alarm@2x.png */; };
 		AB9CDBB5184915ED00EC7E8B /* AlarmCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBB1184915ED00EC7E8B /* AlarmCheck@2x.png */; };
 		AB9CDBB6184915ED00EC7E8B /* AlarmOff@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBB2184915ED00EC7E8B /* AlarmOff@2x.png */; };
@@ -54,7 +49,6 @@
 		AB9CDBD21849438400EC7E8B /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9CDBD01849438400EC7E8B /* SettingsViewController.m */; };
 		AB9CDBD31849438400EC7E8B /* SettingsViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBD11849438400EC7E8B /* SettingsViewController~5.xib */; };
 		AB9CDBD7184946A900EC7E8B /* SettingsViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBD6184946A900EC7E8B /* SettingsViewController~4.xib */; };
-		AB9CDBDA18494E4800EC7E8B /* ShadowRunTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9CDBD918494E4800EC7E8B /* ShadowRunTabBarViewController.m */; };
 		AB9CDBDD18495CF200EC7E8B /* ShadowRuns.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBDB18495CF200EC7E8B /* ShadowRuns.png */; };
 		AB9CDBDE18495CF200EC7E8B /* ShadowRuns@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9CDBDC18495CF200EC7E8B /* ShadowRuns@2x.png */; };
 		ABA15783187B4F630050D5D7 /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA15781187B4F630050D5D7 /* NotesViewController.m */; };
@@ -64,11 +58,9 @@
 		ABA6661117EE7CB70002081D /* DetailViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA6660F17EE7CB70002081D /* DetailViewController~5.xib */; };
 		ABA6661317EE7CE10002081D /* DetailViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA6661217EE7CE10002081D /* DetailViewController~4.xib */; };
 		ABABC25E187F6E5C002996DB /* Lopez-4~5.png in Resources */ = {isa = PBXBuildFile; fileRef = ABABC25D187F6E5C002996DB /* Lopez-4~5.png */; };
-		ABAFD5F218AEE29B009BAC58 /* ShadowClocksViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAFD5F118AEE29B009BAC58 /* ShadowClocksViewController~4.xib */; };
 		ABB017AC1857E8BF000277AE /* AlarmLengthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB017AA1857E8BF000277AE /* AlarmLengthViewController.m */; };
 		ABB017AD1857E8BF000277AE /* AlarmLengthViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB017AB1857E8BF000277AE /* AlarmLengthViewController~5.xib */; };
 		ABB017AF1857E8D4000277AE /* AlarmLengthViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB017AE1857E8D4000277AE /* AlarmLengthViewController~4.xib */; };
-		ABBED8AA18304EA9001FADF3 /* Localized.strings in Resources */ = {isa = PBXBuildFile; fileRef = ABBED8AC18304EA9001FADF3 /* Localized.strings */; };
 		ABBED8AE18304ED7001FADF3 /* StopwatchViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBED8B018304ED7001FADF3 /* StopwatchViewController~4.xib */; };
 		ABBED8B218304F96001FADF3 /* StopwatchViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBED8B418304F96001FADF3 /* StopwatchViewController~5.xib */; };
 		ABC489A517F24FF3007DD51A /* DetailViewController~4NewRun.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC489A417F24FF3007DD51A /* DetailViewController~4NewRun.xib */; };
@@ -99,10 +91,6 @@
 		ABC62D5117F26CFC00227A3D /* CreditsHelpViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC62D5017F26CFC00227A3D /* CreditsHelpViewController~4.xib */; };
 		ABC62D5417F26F1E00227A3D /* Credits.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC62D5217F26F1E00227A3D /* Credits.png */; };
 		ABC62D5517F26F1E00227A3D /* Credits@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC62D5317F26F1E00227A3D /* Credits@2x.png */; };
-		ABC62D5717F2708A00227A3D /* EULAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC62D5617F2708A00227A3D /* EULAViewController.xib */; };
-		ABC62D5A17F2709600227A3D /* EULAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC62D5917F2709600227A3D /* EULAViewController.m */; };
-		ABC62D5E17F270AD00227A3D /* TOSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC62D5C17F270AD00227A3D /* TOSViewController.m */; };
-		ABC62D5F17F270AD00227A3D /* TOSViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC62D5D17F270AD00227A3D /* TOSViewController.xib */; };
 		ABD758BA188706F100F022FD /* UINavigationController+KeyboardDismiss.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD758B9188706F100F022FD /* UINavigationController+KeyboardDismiss.m */; };
 		ABE00E1B187384CC00663E54 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE00E1A187384CB00663E54 /* iAd.framework */; };
 /* End PBXBuildFile section */
@@ -118,12 +106,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AB1AEAB318B6CEAA003AB73D /* GoogleWeatherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleWeatherAPI.h; sourceTree = "<group>"; };
-		AB1AEAB418B6CEAA003AB73D /* GoogleWeatherAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleWeatherAPI.m; sourceTree = "<group>"; };
 		AB242E7E184A32B700026204 /* Help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Help.png; sourceTree = "<group>"; };
 		AB242E7F184A32B700026204 /* Help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Help@2x.png"; sourceTree = "<group>"; };
-		AB3337A5187DDF8800F6A8CC /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
-		AB3337A6187DDF8800F6A8CC /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
 		AB4B4FE017EE41C80046E546 /* ShadowRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShadowRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB4B4FE317EE41C80046E546 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		AB4B4FE517EE41C80046E546 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -153,13 +137,9 @@
 		AB4B502A17EE457D0046E546 /* ShadowRun.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowRun.m; sourceTree = "<group>"; };
 		AB4B502C17EE46030046E546 /* ShadowRunViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowRunViewController.h; sourceTree = "<group>"; };
 		AB4B502D17EE46030046E546 /* ShadowRunViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowRunViewController.m; sourceTree = "<group>"; };
-		AB4B502F17EE77510046E546 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		AB4B503117EE78010046E546 /* Lopez-4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lopez-4.jpg"; sourceTree = "<group>"; };
 		AB4B503217EE78010046E546 /* Run.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Run.png; sourceTree = "<group>"; };
 		AB4B503317EE78010046E546 /* Run@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Run@2x.png"; sourceTree = "<group>"; };
-		AB8F12E618AEAD7300A51AAF /* ShadowClocksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowClocksViewController.h; sourceTree = "<group>"; };
-		AB8F12E718AEAD7300A51AAF /* ShadowClocksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowClocksViewController.m; sourceTree = "<group>"; };
-		AB8F12E818AEAD7300A51AAF /* ShadowClocksViewController~5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ShadowClocksViewController~5.xib"; sourceTree = "<group>"; };
 		AB9CDBB0184915ED00EC7E8B /* Alarm@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Alarm@2x.png"; sourceTree = "<group>"; };
 		AB9CDBB1184915ED00EC7E8B /* AlarmCheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AlarmCheck@2x.png"; sourceTree = "<group>"; };
 		AB9CDBB2184915ED00EC7E8B /* AlarmOff@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AlarmOff@2x.png"; sourceTree = "<group>"; };
@@ -179,8 +159,6 @@
 		AB9CDBD01849438400EC7E8B /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		AB9CDBD11849438400EC7E8B /* SettingsViewController~5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SettingsViewController~5.xib"; sourceTree = "<group>"; };
 		AB9CDBD6184946A900EC7E8B /* SettingsViewController~4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SettingsViewController~4.xib"; sourceTree = "<group>"; };
-		AB9CDBD818494E4800EC7E8B /* ShadowRunTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowRunTabBarViewController.h; sourceTree = "<group>"; };
-		AB9CDBD918494E4800EC7E8B /* ShadowRunTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowRunTabBarViewController.m; sourceTree = "<group>"; };
 		AB9CDBDB18495CF200EC7E8B /* ShadowRuns.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ShadowRuns.png; sourceTree = "<group>"; };
 		AB9CDBDC18495CF200EC7E8B /* ShadowRuns@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ShadowRuns@2x.png"; sourceTree = "<group>"; };
 		AB9FA22318B00AC400370CFB /* ShadowRun 1.0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ShadowRun 1.0.1.xcdatamodel"; sourceTree = "<group>"; };
@@ -193,13 +171,11 @@
 		ABA6660F17EE7CB70002081D /* DetailViewController~5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DetailViewController~5.xib"; sourceTree = "<group>"; };
 		ABA6661217EE7CE10002081D /* DetailViewController~4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DetailViewController~4.xib"; sourceTree = "<group>"; };
 		ABABC25D187F6E5C002996DB /* Lopez-4~5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lopez-4~5.png"; sourceTree = "<group>"; };
-		ABAFD5F118AEE29B009BAC58 /* ShadowClocksViewController~4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ShadowClocksViewController~4.xib"; sourceTree = "<group>"; };
 		ABB017A91857E8BF000277AE /* AlarmLengthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmLengthViewController.h; sourceTree = "<group>"; };
 		ABB017AA1857E8BF000277AE /* AlarmLengthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmLengthViewController.m; sourceTree = "<group>"; };
 		ABB017AB1857E8BF000277AE /* AlarmLengthViewController~5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AlarmLengthViewController~5.xib"; sourceTree = "<group>"; };
 		ABB017AE1857E8D4000277AE /* AlarmLengthViewController~4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "AlarmLengthViewController~4.xib"; sourceTree = "<group>"; };
 		ABBE9F0D18B56EA10023A44C /* ShadowRun 1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ShadowRun 1.0.xcdatamodel"; sourceTree = "<group>"; };
-		ABBED8AB18304EA9001FADF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localized.strings; sourceTree = "<group>"; };
 		ABBED8AF18304ED7001FADF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/StopwatchViewController~4.xib"; sourceTree = "<group>"; };
 		ABBED8B318304F96001FADF3 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "en.lproj/StopwatchViewController~5.xib"; sourceTree = "<group>"; };
 		ABC489A417F24FF3007DD51A /* DetailViewController~4NewRun.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "DetailViewController~4NewRun.xib"; sourceTree = "<group>"; };
@@ -233,19 +209,9 @@
 		ABC62D5017F26CFC00227A3D /* CreditsHelpViewController~4.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "CreditsHelpViewController~4.xib"; sourceTree = "<group>"; };
 		ABC62D5217F26F1E00227A3D /* Credits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Credits.png; sourceTree = "<group>"; };
 		ABC62D5317F26F1E00227A3D /* Credits@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Credits@2x.png"; sourceTree = "<group>"; };
-		ABC62D5617F2708A00227A3D /* EULAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EULAViewController.xib; sourceTree = "<group>"; };
-		ABC62D5817F2709600227A3D /* EULAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EULAViewController.h; sourceTree = "<group>"; };
-		ABC62D5917F2709600227A3D /* EULAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EULAViewController.m; sourceTree = "<group>"; };
-		ABC62D5B17F270AD00227A3D /* TOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOSViewController.h; sourceTree = "<group>"; };
-		ABC62D5C17F270AD00227A3D /* TOSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOSViewController.m; sourceTree = "<group>"; };
-		ABC62D5D17F270AD00227A3D /* TOSViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TOSViewController.xib; sourceTree = "<group>"; };
 		ABD758B8188706F100F022FD /* UINavigationController+KeyboardDismiss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+KeyboardDismiss.h"; sourceTree = "<group>"; };
 		ABD758B9188706F100F022FD /* UINavigationController+KeyboardDismiss.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+KeyboardDismiss.m"; sourceTree = "<group>"; };
 		ABE00E1A187384CB00663E54 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		ABFEB10B18771FDD00FE6F6E /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = "../../../../../../Desktop/TestFlight SDK/TestFlightSDK2.1.3/TestFlight.h"; sourceTree = "<group>"; };
-		ABFEB10C18771FDD00FE6F6E /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "../../../../../../Desktop/TestFlight SDK/TestFlightSDK2.1.3/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
-		ABFEB10D18771FDD00FE6F6E /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "../../../../../../Desktop/TestFlight SDK/TestFlightSDK2.1.3/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
-		ABFEB10E18771FF100FE6F6E /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = "../../../../../Desktop/TestFlight SDK/TestFlightSDK2.1.3/libTestFlight.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,31 +241,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AB1AEAB218B6CE40003AB73D /* Google Weather API */ = {
-			isa = PBXGroup;
-			children = (
-				AB1AEAB318B6CEAA003AB73D /* GoogleWeatherAPI.h */,
-				AB1AEAB418B6CEAA003AB73D /* GoogleWeatherAPI.m */,
-			);
-			name = "Google Weather API";
-			sourceTree = "<group>";
-		};
-		AB2C959017F60C97003CBF51 /* ShadowIntervals */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = ShadowIntervals;
-			sourceTree = "<group>";
-		};
-		AB3337A4187DDF6300F6A8CC /* Other Headers/Methods */ = {
-			isa = PBXGroup;
-			children = (
-				AB3337A5187DDF8800F6A8CC /* ILTranslucentView.h */,
-				AB3337A6187DDF8800F6A8CC /* ILTranslucentView.m */,
-			);
-			name = "Other Headers/Methods";
-			sourceTree = "<group>";
-		};
 		AB4B4FD717EE41C80046E546 = {
 			isa = PBXGroup;
 			children = (
@@ -322,7 +263,6 @@
 		AB4B4FE217EE41C80046E546 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				ABFEB10E18771FF100FE6F6E /* libTestFlight.a */,
 				ABE00E1A187384CB00663E54 /* iAd.framework */,
 				ABC489BC17F26403007DD51A /* MediaPlayer.framework */,
 				AB4B502417EE44E70046E546 /* CoreData.framework */,
@@ -339,14 +279,9 @@
 			children = (
 				AB4B4FF217EE41C80046E546 /* ShadowRunAppDelegate.h */,
 				AB4B4FF317EE41C80046E546 /* ShadowRunAppDelegate.m */,
-				AB9CDBD818494E4800EC7E8B /* ShadowRunTabBarViewController.h */,
-				AB9CDBD918494E4800EC7E8B /* ShadowRunTabBarViewController.m */,
-				ABBED8AC18304EA9001FADF3 /* Localized.strings */,
 				AB4B502617EE44FB0046E546 /* ShadowRun.xcdatamodeld */,
 				AB4B4FF517EE41C80046E546 /* Images.xcassets */,
-				AB4B502F17EE77510046E546 /* Settings.bundle */,
 				AB4B501217EE446A0046E546 /* ShadowRun */,
-				AB3337A4187DDF6300F6A8CC /* Other Headers/Methods */,
 				AB4B4FEA17EE41C80046E546 /* Supporting Files */,
 			);
 			path = ShadowRun;
@@ -355,34 +290,12 @@
 		AB4B4FEA17EE41C80046E546 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				ABC489BE17F2645D007DD51A /* Music */,
+				AB6F9E1218BBE0B500C499EF /* Sounds */,
+				ABC489BE17F2645D007DD51A /* Images */,
 				AB4B4FEB17EE41C80046E546 /* ShadowRun-Info.plist */,
 				AB4B4FEC17EE41C80046E546 /* InfoPlist.strings */,
 				AB4B4FEF17EE41C80046E546 /* main.m */,
 				AB4B4FF117EE41C80046E546 /* ShadowRun-Prefix.pch */,
-				ABC62D5217F26F1E00227A3D /* Credits.png */,
-				ABC62D5317F26F1E00227A3D /* Credits@2x.png */,
-				ABABC25D187F6E5C002996DB /* Lopez-4~5.png */,
-				AB4B503117EE78010046E546 /* Lopez-4.jpg */,
-				AB9CDBDB18495CF200EC7E8B /* ShadowRuns.png */,
-				AB9CDBDC18495CF200EC7E8B /* ShadowRuns@2x.png */,
-				AB4B503217EE78010046E546 /* Run.png */,
-				AB4B503317EE78010046E546 /* Run@2x.png */,
-				ABC489B017F25A07007DD51A /* Time.png */,
-				ABC489B117F25A07007DD51A /* Time@2x.png */,
-				AB9CDBC01849185B00EC7E8B /* Alarm.png */,
-				AB9CDBB0184915ED00EC7E8B /* Alarm@2x.png */,
-				AB9CDBC11849185B00EC7E8B /* AlarmCheck.png */,
-				AB9CDBB1184915ED00EC7E8B /* AlarmCheck@2x.png */,
-				AB9CDBC21849185B00EC7E8B /* AlarmOff.png */,
-				AB9CDBB2184915ED00EC7E8B /* AlarmOff@2x.png */,
-				AB9CDBC31849185B00EC7E8B /* AlarmOn.png */,
-				AB9CDBB3184915ED00EC7E8B /* AlarmOn@2x.png */,
-				AB9CDBBE1849179000EC7E8B /* Alarm.aiff */,
-				AB9CDBCA184942EE00EC7E8B /* Settings.png */,
-				AB9CDBCB184942EE00EC7E8B /* Settings@2x.png */,
-				AB242E7E184A32B700026204 /* Help.png */,
-				AB242E7F184A32B700026204 /* Help@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -408,11 +321,8 @@
 		AB4B501217EE446A0046E546 /* ShadowRun */ = {
 			isa = PBXGroup;
 			children = (
-				AB1AEAB218B6CE40003AB73D /* Google Weather API */,
-				ABFEB10A18771FC800FE6F6E /* TestFlight SDK */,
 				AB9CDBCE1849434000EC7E8B /* Settings/Help */,
-				AB2C959017F60C97003CBF51 /* ShadowIntervals */,
-				ABC62D4A17F26CBA00227A3D /* TOS and EULA */,
+				ABC62D4A17F26CBA00227A3D /* Credits */,
 				ABC489B417F26397007DD51A /* ShadowMusic */,
 				ABC489A817F2571D007DD51A /* ShadowWatch/Shadow Alarm */,
 				AB4B501B17EE448B0046E546 /* ShadowRun TableView/VC */,
@@ -466,6 +376,78 @@
 			name = "ShadowRun TableView/VC";
 			sourceTree = "<group>";
 		};
+		AB6F9E0D18BBE07600C499EF /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				ABC489BF17F2646A007DD51A /* noArtwork.jpg */,
+				ABC489C017F2646A007DD51A /* Film.png */,
+				ABC489C117F2646A007DD51A /* mic.png */,
+				ABC489C217F2646A007DD51A /* mic@2x.png */,
+				ABC489C317F2646A007DD51A /* mic_24.png */,
+				ABC489C417F2646A007DD51A /* mic_48.png */,
+				ABC489C517F2646A007DD51A /* mic_64.png */,
+				ABC489C617F2646A007DD51A /* video_forward_64.png */,
+				ABC489C717F2646A007DD51A /* video_pause_64.png */,
+				ABC489C817F2646A007DD51A /* video_play_64.png */,
+				ABC489C917F2646A007DD51A /* video_rewind_64.png */,
+				ABC489CA17F2646A007DD51A /* volume_down_64.png */,
+				ABC489CB17F2646A007DD51A /* volume_up_64.png */,
+				ABC489CC17F2646A007DD51A /* speaker_64.png */,
+			);
+			name = Music;
+			sourceTree = "<group>";
+		};
+		AB6F9E0E18BBE07F00C499EF /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				AB9CDBC01849185B00EC7E8B /* Alarm.png */,
+				AB9CDBB0184915ED00EC7E8B /* Alarm@2x.png */,
+				AB9CDBC11849185B00EC7E8B /* AlarmCheck.png */,
+				AB9CDBB1184915ED00EC7E8B /* AlarmCheck@2x.png */,
+				AB9CDBC21849185B00EC7E8B /* AlarmOff.png */,
+				AB9CDBB2184915ED00EC7E8B /* AlarmOff@2x.png */,
+				AB9CDBC31849185B00EC7E8B /* AlarmOn.png */,
+				AB9CDBB3184915ED00EC7E8B /* AlarmOn@2x.png */,
+			);
+			name = Alarm;
+			sourceTree = "<group>";
+		};
+		AB6F9E1018BBE09500C499EF /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				ABC62D5217F26F1E00227A3D /* Credits.png */,
+				ABC62D5317F26F1E00227A3D /* Credits@2x.png */,
+				AB9CDBDB18495CF200EC7E8B /* ShadowRuns.png */,
+				AB9CDBDC18495CF200EC7E8B /* ShadowRuns@2x.png */,
+				AB4B503217EE78010046E546 /* Run.png */,
+				AB4B503317EE78010046E546 /* Run@2x.png */,
+				ABC489B017F25A07007DD51A /* Time.png */,
+				ABC489B117F25A07007DD51A /* Time@2x.png */,
+				AB9CDBCA184942EE00EC7E8B /* Settings.png */,
+				AB9CDBCB184942EE00EC7E8B /* Settings@2x.png */,
+				AB242E7E184A32B700026204 /* Help.png */,
+				AB242E7F184A32B700026204 /* Help@2x.png */,
+			);
+			name = TabBar;
+			sourceTree = "<group>";
+		};
+		AB6F9E1118BBE0A900C499EF /* Background */ = {
+			isa = PBXGroup;
+			children = (
+				ABABC25D187F6E5C002996DB /* Lopez-4~5.png */,
+				AB4B503117EE78010046E546 /* Lopez-4.jpg */,
+			);
+			name = Background;
+			sourceTree = "<group>";
+		};
+		AB6F9E1218BBE0B500C499EF /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				AB9CDBBE1849179000EC7E8B /* Alarm.aiff */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 		AB8F12E518AEAD4800A51AAF /* ShadowWatch VC */ = {
 			isa = PBXGroup;
 			children = (
@@ -508,10 +490,6 @@
 			children = (
 				AB8F12E518AEAD4800A51AAF /* ShadowWatch VC */,
 				AB9CDBB8184915F400EC7E8B /* ShadowAlarm */,
-				AB8F12E618AEAD7300A51AAF /* ShadowClocksViewController.h */,
-				AB8F12E718AEAD7300A51AAF /* ShadowClocksViewController.m */,
-				AB8F12E818AEAD7300A51AAF /* ShadowClocksViewController~5.xib */,
-				ABAFD5F118AEE29B009BAC58 /* ShadowClocksViewController~4.xib */,
 			);
 			name = "ShadowWatch/Shadow Alarm";
 			sourceTree = "<group>";
@@ -527,52 +505,26 @@
 			name = ShadowMusic;
 			sourceTree = "<group>";
 		};
-		ABC489BE17F2645D007DD51A /* Music */ = {
+		ABC489BE17F2645D007DD51A /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				ABC489BF17F2646A007DD51A /* noArtwork.jpg */,
-				ABC489C017F2646A007DD51A /* Film.png */,
-				ABC489C117F2646A007DD51A /* mic.png */,
-				ABC489C217F2646A007DD51A /* mic@2x.png */,
-				ABC489C317F2646A007DD51A /* mic_24.png */,
-				ABC489C417F2646A007DD51A /* mic_48.png */,
-				ABC489C517F2646A007DD51A /* mic_64.png */,
-				ABC489C617F2646A007DD51A /* video_forward_64.png */,
-				ABC489C717F2646A007DD51A /* video_pause_64.png */,
-				ABC489C817F2646A007DD51A /* video_play_64.png */,
-				ABC489C917F2646A007DD51A /* video_rewind_64.png */,
-				ABC489CA17F2646A007DD51A /* volume_down_64.png */,
-				ABC489CB17F2646A007DD51A /* volume_up_64.png */,
-				ABC489CC17F2646A007DD51A /* speaker_64.png */,
+				AB6F9E1118BBE0A900C499EF /* Background */,
+				AB6F9E1018BBE09500C499EF /* TabBar */,
+				AB6F9E0E18BBE07F00C499EF /* Alarm */,
+				AB6F9E0D18BBE07600C499EF /* Music */,
 			);
-			name = Music;
+			name = Images;
 			sourceTree = "<group>";
 		};
-		ABC62D4A17F26CBA00227A3D /* TOS and EULA */ = {
+		ABC62D4A17F26CBA00227A3D /* Credits */ = {
 			isa = PBXGroup;
 			children = (
 				ABC62D4B17F26CD000227A3D /* CreditsHelpViewController.h */,
 				ABC62D4C17F26CD000227A3D /* CreditsHelpViewController.m */,
 				ABC62D4D17F26CD000227A3D /* CreditsHelpViewController~5.xib */,
 				ABC62D5017F26CFC00227A3D /* CreditsHelpViewController~4.xib */,
-				ABC62D5817F2709600227A3D /* EULAViewController.h */,
-				ABC62D5917F2709600227A3D /* EULAViewController.m */,
-				ABC62D5617F2708A00227A3D /* EULAViewController.xib */,
-				ABC62D5B17F270AD00227A3D /* TOSViewController.h */,
-				ABC62D5C17F270AD00227A3D /* TOSViewController.m */,
-				ABC62D5D17F270AD00227A3D /* TOSViewController.xib */,
 			);
-			name = "TOS and EULA";
-			sourceTree = "<group>";
-		};
-		ABFEB10A18771FC800FE6F6E /* TestFlight SDK */ = {
-			isa = PBXGroup;
-			children = (
-				ABFEB10B18771FDD00FE6F6E /* TestFlight.h */,
-				ABFEB10C18771FDD00FE6F6E /* TestFlight+AsyncLogging.h */,
-				ABFEB10D18771FDD00FE6F6E /* TestFlight+ManualSessions.h */,
-			);
-			name = "TestFlight SDK";
+			name = Credits;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -669,8 +621,6 @@
 				AB9CDBDE18495CF200EC7E8B /* ShadowRuns@2x.png in Resources */,
 				AB9CDBD7184946A900EC7E8B /* SettingsViewController~4.xib in Resources */,
 				ABC489D417F2646A007DD51A /* video_forward_64.png in Resources */,
-				ABAFD5F218AEE29B009BAC58 /* ShadowClocksViewController~4.xib in Resources */,
-				AB4B503017EE77510046E546 /* Settings.bundle in Resources */,
 				AB9CDBB7184915ED00EC7E8B /* AlarmOn@2x.png in Resources */,
 				AB9CDBB4184915ED00EC7E8B /* Alarm@2x.png in Resources */,
 				ABC489D317F2646A007DD51A /* mic_64.png in Resources */,
@@ -703,19 +653,15 @@
 				ABBED8AE18304ED7001FADF3 /* StopwatchViewController~4.xib in Resources */,
 				ABC489DA17F2646A007DD51A /* speaker_64.png in Resources */,
 				ABA15784187B4F630050D5D7 /* NotesViewController~5.xib in Resources */,
-				ABC62D5717F2708A00227A3D /* EULAViewController.xib in Resources */,
 				AB9CDBD31849438400EC7E8B /* SettingsViewController~5.xib in Resources */,
 				AB9CDBB6184915ED00EC7E8B /* AlarmOff@2x.png in Resources */,
-				ABBED8AA18304EA9001FADF3 /* Localized.strings in Resources */,
 				ABC62D5417F26F1E00227A3D /* Credits.png in Resources */,
 				AB4B503617EE78010046E546 /* Run@2x.png in Resources */,
 				AB4B502317EE44D00046E546 /* ShadowRunItemCell.xib in Resources */,
-				ABC62D5F17F270AD00227A3D /* TOSViewController.xib in Resources */,
 				ABC489D717F2646A007DD51A /* video_rewind_64.png in Resources */,
 				ABC489D817F2646A007DD51A /* volume_down_64.png in Resources */,
 				AB242E81184A32B700026204 /* Help@2x.png in Resources */,
 				ABC489CD17F2646A007DD51A /* noArtwork.jpg in Resources */,
-				AB8F12EA18AEAD7300A51AAF /* ShadowClocksViewController~5.xib in Resources */,
 				AB9CDBC91849199300EC7E8B /* AlarmViewController~4.xib in Resources */,
 				AB9CDBC41849185B00EC7E8B /* Alarm.png in Resources */,
 				AB9CDBBF1849179000EC7E8B /* Alarm.aiff in Resources */,
@@ -740,16 +686,13 @@
 				ABC62D4E17F26CD000227A3D /* CreditsHelpViewController.m in Sources */,
 				ABC489AC17F25738007DD51A /* StopwatchViewController.m in Sources */,
 				AB4B4FF417EE41C80046E546 /* ShadowRunAppDelegate.m in Sources */,
-				AB8F12E918AEAD7300A51AAF /* ShadowClocksViewController.m in Sources */,
 				AB9CDBD21849438400EC7E8B /* SettingsViewController.m in Sources */,
-				AB1AEAB518B6CEAA003AB73D /* GoogleWeatherAPI.m in Sources */,
 				ABB017AC1857E8BF000277AE /* AlarmLengthViewController.m in Sources */,
 				AB4B4FF017EE41C80046E546 /* main.m in Sources */,
 				ABA6661017EE7CB70002081D /* DetailViewController.m in Sources */,
 				AB4B501E17EE44A50046E546 /* RunTypePicker.m in Sources */,
 				AB9CDBBC1849160900EC7E8B /* AlarmViewController.m in Sources */,
 				AB4B502817EE44FB0046E546 /* ShadowRun.xcdatamodeld in Sources */,
-				ABC62D5A17F2709600227A3D /* EULAViewController.m in Sources */,
 				AB4B502217EE44D00046E546 /* ShadowRunItemCell.m in Sources */,
 				AB4B502B17EE457D0046E546 /* ShadowRun.m in Sources */,
 				ABC489B817F263AA007DD51A /* MusicViewController.m in Sources */,
@@ -757,9 +700,6 @@
 				ABA15783187B4F630050D5D7 /* NotesViewController.m in Sources */,
 				AB4B501A17EE44820046E546 /* ShadowRunStore.m in Sources */,
 				ABD758BA188706F100F022FD /* UINavigationController+KeyboardDismiss.m in Sources */,
-				AB3337A7187DDF8800F6A8CC /* ILTranslucentView.m in Sources */,
-				ABC62D5E17F270AD00227A3D /* TOSViewController.m in Sources */,
-				AB9CDBDA18494E4800EC7E8B /* ShadowRunTabBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -796,14 +736,6 @@
 				AB4B500617EE41C90046E546 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		ABBED8AC18304EA9001FADF3 /* Localized.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				ABBED8AB18304EA9001FADF3 /* en */,
-			);
-			name = Localized.strings;
 			sourceTree = "<group>";
 		};
 		ABBED8B018304ED7001FADF3 /* StopwatchViewController~4.xib */ = {

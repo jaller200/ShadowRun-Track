@@ -8,7 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreditsHelpViewController">
             <connections>
                 <outlet property="adView" destination="Ha2-NC-qMc" id="bML-pW-3Vp"/>
-                <outlet property="settingsButton" destination="BdQ-Ui-Opa" id="Ceq-fL-IPH"/>
+                <outlet property="settingsButton" destination="QuZ-kw-ogT" id="bUx-Qj-UHa"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -26,22 +26,6 @@
                         <tabBarItem systemItem="more" id="B8R-dp-YrT"/>
                     </items>
                 </tabBar>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ySW-Yx-mve">
-                    <rect key="frame" x="0.0" y="475" width="320" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="320" id="Gld-FF-eij"/>
-                    </constraints>
-                    <items>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="YEo-vW-agZ"/>
-                        <barButtonItem title="Settings" id="BdQ-Ui-Opa">
-                            <connections>
-                                <action selector="openSettings:" destination="-1" id="teo-x4-1p8"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="f9I-Hq-BbP"/>
-                    </items>
-                </toolbar>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="© 2013 ShadowPress. All Rights Reserved." translatesAutoresizingMaskIntoConstraints="NO" id="lxJ-Wo-9Aw">
                     <rect key="frame" x="20" y="68" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -64,6 +48,19 @@
                     <rect key="frame" x="0.0" y="425" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                 </adBannerView>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8D5-Fh-GMo">
+                    <rect key="frame" x="0.0" y="475" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <items>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="wYN-Ce-Z9q"/>
+                        <barButtonItem title="Settings" id="QuZ-kw-ogT">
+                            <connections>
+                                <action selector="openSettings:" destination="-1" id="IS8-nO-lsS"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="UQh-4c-4lO"/>
+                    </items>
+                </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

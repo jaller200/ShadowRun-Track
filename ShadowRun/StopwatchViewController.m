@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 9/24/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import "StopwatchViewController.h"
@@ -13,15 +12,12 @@
 #import "DetailViewController.h"
 #import "ShadowRunViewController.h"
 
-//#define IS_IPHONE_5 (fabs((double)[[UIScreen mainScreen] bounds].size.height - (double)568) < DBL_EPSILON)
-
 @implementation StopwatchViewController
 @synthesize run;
 @synthesize dismissBlock;
 @synthesize totalTime;
 @synthesize runTimeString;
 @synthesize runTime;
-//@synthesize startDate;
 
 #pragma mark - INIT Methods
 
@@ -89,60 +85,10 @@
     [[self stopButtonItem] setEnabled:NO];
     
     [[self stopwatchLabel] setText:[NSString stringWithFormat:@"00:00:00.000"]];
-    
-    //[[self toolbar] setHidden:YES];
-    
     pauseTimeInterval = 0.0;
 }
 
 #pragma mark - Stopwatch Methods
-
-- (IBAction)startStopwatch:(id)sender
-{
-    NSLog(@"Stopwatch Started");
-    
-    //[self setStartDate:[NSDate date]];
-    //[self setStopWatchTimer:[NSTimer scheduledTimerWithTimeInterval:1.0 / 10.0
-                                                             //target:self
-                                                           //selector:@selector(updateTimer)
-                                                           //userInfo:nil
-                                                            //repeats:YES]];
-    watchStart = YES;
-    self.startDate = [NSDate date];
-    self.startDate = [self.startDate dateByAddingTimeInterval:((-1)*(pauseTimeInterval))];
-    self.stopWatchTimer = [NSTimer scheduledTimerWithTimeInterval:1.0/1000.0 target:self selector:@selector(updateTimer) userInfo:nil repeats:YES];
-    
-    [[self startButton] setEnabled:NO];
-    [[self stopButton] setEnabled:YES];
-    [[self startButtonItem] setEnabled:NO];
-    [[self stopButtonItem] setEnabled:YES];
-}
-
-- (IBAction)stopStopwatch:(id)sender
-{
-    NSLog(@"Stopwatch Stopped");
-    
-    //[[self stopWatchTimer] invalidate];
-    //[self setStopWatchTimer:nil];
-    //[self updateTimer];
-    
-    watchStart = NO;
-    [self.stopWatchTimer invalidate];
-    self.stopWatchTimer = nil;
-    [self updateTimer];
-    
-    [[self stopButton] setEnabled:NO];
-    [[self startButton] setEnabled:YES];
-    
-    [[self startButtonItem] setEnabled:YES];
-    [[self stopButtonItem] setEnabled:NO];
-    
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"HH:mm:ss.SSS"];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0.0]];
-    
-    NSLog(@"runTimeString = %@", runTimeString);
-}
 
 - (IBAction)resetStopwatch:(id)sender
 {
@@ -173,6 +119,7 @@
 
 #pragma mark - CreateRun Methods
 
+// Not in use yet, I will use in later version to create a run from the stopwatch time.
 - (IBAction)createRun:(id)sender
 {
     NSLog(@"StopwatchViewController - Create Run");

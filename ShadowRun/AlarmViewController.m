@@ -26,8 +26,6 @@
     if (self) {
         UITabBarItem *tbi = [self tabBarItem];
         
-        //alarmSet = NO;
-        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSString *alarmSetString = [userDefaults stringForKey:@"alarmSet"];
         
@@ -70,7 +68,7 @@
     if (alarmSetDate == nil || alarmSetDate == NULL) {
         [[self alarmSetToLabel] setText:@"-Not Set-"];
     } else {
-        [[self alarmSetToLabel] setText:alarmSetDate];
+        [[self alarmSetToLabel] setText:alarmSetString];
     }
 }
 
@@ -157,7 +155,6 @@
         alarmMessage = @"Start Running!";
     }
     
-    //notification.alertBody = @"Start Running!";
     notification.alertBody = alarmMessage;
     notification.soundName = @"Alarm.aiff";
     notification.timeZone = [NSTimeZone defaultTimeZone];

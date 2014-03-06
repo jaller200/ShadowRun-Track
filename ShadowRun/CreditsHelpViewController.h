@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 9/24/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import <UIKit/UIKit.h>
@@ -19,8 +18,6 @@
 
 @property (nonatomic, retain) IBOutlet ADBannerView *adView;
 
-- (IBAction)openTOS:(id)sender;
-- (IBAction)openEULA:(id)sender;
 - (IBAction)gotoWebsite:(id)sender;
 - (IBAction)openSettings:(id)sender;
 

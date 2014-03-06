@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 9/21/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import "ShadowRunAppDelegate.h"
@@ -16,8 +15,6 @@
 #import "CreditsHelpViewController.h"
 #import "AlarmViewController.h"
 #import "SettingsViewController.h"
-#import "ShadowRunTabBarViewController.h"
-//#import "TestFlight.h"
 
 @implementation ShadowRunAppDelegate
 
@@ -25,27 +22,16 @@
 {
     NSLog(@"ShadowRunDelegate - Application Started...");
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    // TestFlight
-    //[TestFlight takeOff:@"9eece788-ced9-4cdc-a987-a9cff474e6de"];
-    
-    // Override point for customization after application launch.
     shadowRunViewController = [[ShadowRunViewController alloc] init];
     StopwatchViewController *stopwatchViewController = [[StopwatchViewController alloc] initFromInfo:NO];
     MusicViewController *musicViewController = [[MusicViewController alloc] init];
     CreditsHelpViewController *creditsHelpViewController = [[CreditsHelpViewController alloc] init];
     AlarmViewController *alarmViewController = [[AlarmViewController alloc] init];
-    //SettingsViewController *settings = [[SettingsViewController alloc] init];
     
     NSLog(@"ShadowRunDelegate - Loading User Preferences...");
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    //BOOL manualSettings = [prefs boolForKey:@"manual_settings"];
     BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
-    
-    // Don't need this yet...
-    // BOOL stopwatchEnabled = [prefs boolForKey:@"stopwatch_enabled"];
-    // BOOL intervalsEnabled = [prefs boolForKey:@"intervals_enabled"];
     
     NSLog(@"ShadowRunDelegate - Loading UINavigationController...");
     
@@ -59,7 +45,6 @@
     [tbi setImage:[UIImage imageNamed:@"ShadowRuns.png"]];
     
     tabBarController = [[UITabBarController alloc] init];
-    //tabBarController.delegate = self;
     
     NSMutableArray *viewControllers = [NSMutableArray arrayWithObjects:navController, nil];
     [viewControllers addObject:stopwatchViewController];
@@ -69,32 +54,11 @@
     
     NSLog(@"ShadowRunDelegate - Applying User Preferences...");
     
-    /*if (manualSettings == YES) {
-        NSLog(@"ShadowRunDelegate - manualSettings: YES");
-        [viewControllers addObject:settings];
-    } else {
-        NSLog(@"ShadowRunDelegate - manualSettings: NO");
-    }*/
-    
     if (milesOrKilometers == YES) {
         NSLog(@"ShadowRunDelegate - miles_kilometers: YES");
     } else {
         NSLog(@"ShadowRunDelegate - miles_kilometer: NO");
     }
-    
-    //BOOL intervalsEnabledBOOL = YES;
-    
-    /*if (stopwatchEnabled) {
-        //NSLog(@"ShadowRunDelegate - StopwatchEnabled: YES");
-        
-        if (intervalsEnabledBOOL) {
-            [viewControllers insertObject:stopwatchViewController atIndex:1];
-        } else {
-            [viewControllers insertObject:stopwatchViewController atIndex:1];
-        }
-    }*/
-    
-    
     
     [tabBarController setViewControllers:viewControllers];
     

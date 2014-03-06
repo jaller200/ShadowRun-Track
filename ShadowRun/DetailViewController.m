@@ -4,7 +4,6 @@
 //
 //  Created by The Doctor on 9/21/13.
 //  Copyright (c) 2013 ShadowPress. All rights reserved.
-//  Dedicated to Isabelle Smoke.
 //
 
 #import "DetailViewController.h"
@@ -13,7 +12,6 @@
 #import "RunTypePicker.h"
 #import "ShadowRunViewController.h"
 #import "NotesViewController.h"
-#import "ILTranslucentView.h"
 
 @implementation UITextField (Additions)
 
@@ -118,9 +116,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    //UIColor *clr = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-    //[[self view] setBackgroundColor:clr];
     [[self view] setAlpha:0.85];
     
     if (IS_IPHONE_5) {
@@ -147,11 +142,6 @@
         [textViewView setText:[run runNotes]];
     }
     
-    if (isNewRun) {
-        //[mphAverageLabelLabel setHidden:YES];
-        //[mphAverageLabel setHidden:YES];
-    }
-    
     runTypeField.delegate = self;
     runTypeField.tag = 3005;
     timeOfDayField.delegate = self;
@@ -163,15 +153,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    //NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    //BOOL milesOrKm = [prefs boolForKey:@"miles_kilometers"];
-    
-    /*if (milesOrKm) {
-        [distanceField setSuffixText:@"Miles"];
-    } else {
-        [distanceField setSuffixText:@"Kilometers"];
-    }*/
     
     [distanceField setDelegate:self];
     [timeField setDelegate:self];
@@ -196,7 +177,6 @@
         [timeField setText:[NSString stringWithFormat:@"%.2f", speed]];
     } else {
         NSLog(@"DetailViewController - isFromStopwatchBOOL = NO");
-        //[timeField setText:[NSString stringWithFormat:@"%.2f", [run time]]];
         [timeField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run time]]]]];
     }
     
@@ -209,15 +189,6 @@
     } else {
         [temperatureField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run temperature]]]]];
     }
-    
-    /*if (![[temperatureField text] isEqualToString:@""]) {
-        NSString *tempString = temperatureField.text;
-        NSRange range = [tempString rangeOfString:@"°"];
-        
-        if (range.location == NSNotFound) {
-            temperatureField.text = [tempString stringByAppendingString:@" °F"];
-        }
-    }*/
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
@@ -242,7 +213,6 @@
         [textViewView setText:[run runNotes]];
     }
     
-    //[self calculateMph];
     [self calculateAveragePace];
     
     NSLog(@"DetailViewController - IsNewRun = %d", isNewRun);
@@ -300,7 +270,6 @@
     [run setTime:[[timeField text] floatValue]];
     [run setTemperature:[[temperatureField text] floatValue]];
     
-    //[distanceField setText:[NSString stringWithFormat:@"%.2f", [run speed]]];
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
     [numFormat setMaximumFractionDigits:2];
@@ -313,9 +282,6 @@
     [temperatureField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run temperature]]]]];
     
     NSLog(@"%f", [run speed]);
-    
-    //float avgMph = [self calculateMph];
-    //[run setAvgMph:avgMph];
     
     float avgPace = [self calculateAveragePace];
     [run setAvgMph:avgPace];
@@ -520,16 +486,7 @@
         }
     
         [UIView commitAnimations];
-        
-        /*if (![[temperatureField text] isEqualToString:@""]) {
-            NSString *tempString = temperatureField.text;
-            NSRange range = [tempString rangeOfString:@" °F"];
-            
-            temperatureField.text = [textField.text stringByReplacingCharactersInRange:range withString:@""];
-        }*/
     }
-    
-    //[textField becomeFirstResponder];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -566,9 +523,7 @@
     }
     
     if (textField.tag == 3005) {
-        //[pickerView endEditing:YES];
-        //[pickerView setHidden:YES];
-        //[toolbar setHidden:YES];
+        
     }
 }
 
@@ -689,7 +644,6 @@
         
         float miles = kilometers * 0.621371;
         
-        //[distanceField setText:[NSString stringWithFormat:@"%.2f", miles]];
         NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
         [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
         [numFormat setMaximumFractionDigits:2];
@@ -702,7 +656,6 @@
         
         float kilometers = miles * 1.60934;
         
-        //[distanceField setText:[NSString stringWithFormat:@"%.2f", kilometers]];
         NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
         [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
         [numFormat setMaximumFractionDigits:2];
@@ -753,8 +706,6 @@
 
 - (IBAction)changeMilesKilos:(id)sender
 {
-    //NSLog(@"Changing to Kilos");
-    
     NSString *milesKilos = [run mileKilos];
     
     if ([milesKilos isEqualToString:@"miles"]) {
@@ -795,27 +746,9 @@
 
 - (IBAction)showRunTypePicker:(id)sender
 {
-    BOOL canResign = [runTypeField canResignFirstResponder];
-    NSLog(@"canResign: %hhd", canResign);
-    
-    //[runTypeField endEditing:YES];
-    //[runTypeField resignFirstResponder];
-    
-    //[[self view] endEditing:YES];
     [pickerView endEditing:YES];
     [pickerView setHidden:YES];
     [toolbar setHidden:YES];
-    
-    //[distanceField endEditing:YES];
-    
-    //[runTypeField endEditing:YES];
-    //[titleField endEditing:YES];
-    //[distanceField endEditing:YES];
-    //[timeField endEditing:YES];
-    //[titleField resignFirstResponder];
-    //[distanceField resignFirstResponder];
-    //[timeField resignFirstResponder];
-    //[runTypeField resignFirstResponder];
     
     if (IS_IPHONE_5) {
         if (isNewRun) {
@@ -857,8 +790,6 @@
         } else if ([[runTypeField text] isEqualToString:@"Tempo Run"]) {
             [pickerView selectRow:3 inComponent:0 animated:YES];
         }
-        
-        //[runTypeButton setTitle:[NSString stringWithFormat:@"Run Type: Strength Run (Hills)"] forState:UIControlStateNormal];
     } else {
         if (isNewRun) {
             NSLog(@"DetailViewController - IsNewRun");
@@ -901,9 +832,6 @@
         } else if ([[runTypeField text] isEqualToString:@"Tempo Run"]) {
             [pickerView selectRow:3 inComponent:0 animated:YES];
         }
-        
-        //[runTypeButton setTitle:[NSString stringWithFormat:@"Run Type: Strength Run (Hills)"] forState:UIControlStateNormal];
-
     }
     
     [[self view] addSubview:toolbar];
@@ -917,14 +845,6 @@
     [UIView setAnimationCurve:animationCurve];
     
     [UIView commitAnimations];
-    
-    //[UIView beginAnimations:nil context:NULL];
-    //NSTimeInterval animationDuration =
-    
-    /*RunTypePicker *runTypePicker = [[RunTypePicker alloc] init];
-     [runTypePicker setRun:run];
-     
-     [[self navigationController] pushViewController:runTypePicker animated:YES];*/
 }
 
 #pragma mark - TimeOfDay Methods
@@ -1026,6 +946,7 @@
 
 #pragma mark - Custom Date Methods
 
+// Show DateChange pickerView
 - (IBAction)changeDate:(id)sender
 {
     NSLog(@"DetailViewController - Changing date.");
@@ -1091,7 +1012,6 @@
         }
         
         [toolbar setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        //toolbar.barStyle = UIBarStyleBlackTranslucent;
         UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
         UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
@@ -1113,6 +1033,7 @@
 
 - (void)dateChange:(id)sender
 {
+    // Change date
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     NSString *dateString = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[datePicker date]]];
@@ -1127,44 +1048,6 @@
 
 - (float)calculateAveragePace
 {
-    /*NSString *timeString = [timeField text];
-    NSString *fractionPart;
-    
-    for (int x = 0; x < 10; x++) {
-        for (int y = 0; y < 10; y++) {
-            NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%d%d", x, y]];
-            
-            if (range.location != NSNotFound) {
-                fractionPart = [NSString stringWithFormat:@"%d%d", x, y];
-                
-                timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
-                break;
-            }
-            
-            break;
-        }
-        
-        //NSRange newRange = [timeString rangeOfString:[NSString stringWithFormat:@".%d", x]];
-        
-        if (newRange.location != NSNotFound) {
-            fractionPart = [NSString stringWithFormat:@".%d", x];
-            timeString = [timeString stringByReplacingCharactersInRange:newRange withString:@""];
-            break;
-        }
-    }
-    
-    float minutesSec = [timeString floatValue] * 60;
-    float seconds = [fractionPart floatValue];
-    float distance = [[distanceField text] floatValue];
-    
-    float averagePace = ((minutesSec + seconds)/distance)/60;
-    
-    NSLog(@"averagePace = %f", averagePace);
-    
-    [mphAverageLabel setText:[NSString stringWithFormat:@"%.2f", averagePace]];
-    
-    return averagePace;*/
-    
     NSString *timeString = [timeField text];
     NSLog(@"timeString = %@", timeString);
     
@@ -1227,34 +1110,9 @@
     return averagePace;
 }
 
+// Currently unused method...may use in future, so I will keep it.
 - (float)calculateMph
 {
-    /*NSString *timeString = [timeField text];
-    NSString *fractionPart;
-    
-    for (float x = 0; x < 10; x++) {
-        for (float y = 0; y < 10; y++) {
-            NSRange range = [timeString rangeOfString:[NSString stringWithFormat:@".%f%f", x, y]];
-            
-            if (range.location != NSNotFound) {
-                fractionPart = [NSString stringWithFormat:@"%f%f", x, y];
-                
-                timeString = [timeString stringByReplacingCharactersInRange:range withString:@""];
-                break;
-            }
-        }
-    }
-    
-    float minutesSec = [timeString floatValue] * 60;
-    float seconds = [fractionPart floatValue];
-    float distance = [[distanceField text] floatValue];
-    
-    float averagePace = ((minutesSec + seconds)/distance)/60;
-    
-    NSLog(@"averagePace = %f", averagePace);
-    
-    return averagePace;*/
-    
     float miles = [[distanceField text] floatValue];
     float timeInMin = [[timeField text] floatValue];
     
@@ -1363,8 +1221,6 @@
     [run setTime:[[timeField text] floatValue]];
     [run setSpeed:[[distanceField text] floatValue]];
     
-    //[timeField setText:[NSString stringWithFormat:@"%.2f", [run time]]];
-    //[distanceField setText:[NSString stringWithFormat:@"%.2f", [run speed]]];
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
     [numFormat setMaximumFractionDigits:2];
@@ -1372,18 +1228,7 @@
     [timeField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run time]]]]];
     [distanceField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run speed]]]]];
     
-    /*if (![[temperatureField text] isEqualToString:@""]) {
-        NSString *tempString = temperatureField.text;
-        NSRange range = [tempString rangeOfString:@"°"];
-        
-        if (range.location == NSNotFound) {
-            temperatureField.text = [tempString stringByAppendingString:@" °F"];
-        }
-    }*/
-    
     [UIView commitAnimations];
-    
-    //[self calculateMph];
     [self calculateAveragePace];
 }
 

@@ -34,11 +34,15 @@
     return self;
 }
 
+- (id)initWithRun:(ShadowRun *)newRun
+{
+    @throw [NSException exceptionWithName:@"Unused initializer" reason:@"initWithRun: is not in use right now. I may use it later." userInfo:nil];
+    return nil;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //[[self navigationController] setNavigationBarHidden:YES];
     
     [textViewView setDelegate:self];
     
