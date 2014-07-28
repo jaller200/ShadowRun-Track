@@ -7,10 +7,12 @@
 //
 
 #import "MusicViewController.h"
+#import "UIImage+ImageEffects.h"
 
 // Uses MediaKit Framework
 @implementation MusicViewController
 @synthesize musicPlayer;
+@synthesize scrollView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +27,9 @@
         
         [tbi setTitle:@"Music"];
         [tbi setImage:[UIImage imageNamed:@"mic.png"]];
+        
+        UINavigationItem *n = [self navigationItem];
+        [n setTitle:NSLocalizedString(@"Music", @"Music")];
     }
     return self;
 }
@@ -34,6 +39,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    prefs = [NSUserDefaults standardUserDefaults];
+    
+    defaultToolbar.translucent = YES;
+    defaultToolbar.alpha = 0.94;
     
     musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
     
@@ -51,6 +61,43 @@
     [volumeLabel setHidden:YES];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    
+    if (IS_IPHONE_5) {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch.png", backgroundSelected]]];
+    } else {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch.png", backgroundSelected]]];
+    }
+    
+    [detailsView setBackgroundColor:[UIColor lightGrayColor]];
+    [detailsView setAlpha:0.65];
+    [detailsView.layer setBorderColor:[UIColor darkGrayColor].CGColor];
+    [detailsView.layer setBorderWidth:0.5];
+    
+    itemsInCollection = [prefs integerForKey:@"itemsInCollection"];
+    
+    currentSong = [prefs integerForKey:@"currentSong"];
+    
+    if (currentSong == 0) {
+        [prevButton setEnabled:NO];
+    } else {
+        [prevButton setEnabled:YES];
+    }
+    
+    if (currentSong == itemsInCollection) {
+        [nextButton setEnabled:NO];
+    } else {
+        [nextButton setEnabled:YES];
+    }
+    
+    UIImage *artworkImage = [UIImage imageNamed:@"noArtwork.jpg"];
+    [artworkBackgroundView setImage:artworkImage];
+}
+
 #pragma mark - MPMusicPlayer Functions
 
 - (void)handle_NowPlayingItemChanged:(id)notification
@@ -64,7 +111,12 @@
         } else {
             artworkImage = [artwork imageWithSize:CGSizeMake(150, 150)];
         }
+        
+        [prefs setBool:YES forKey:@"musicPlaying"];
+    } else {
+        [prefs setBool:NO forKey:@"musicPlaying"];
     }
+    
     [artworkImageView setImage:artworkImage];
     
     NSString *titleString = [currentItem valueForProperty:MPMediaItemPropertyTitle];
@@ -126,9 +178,22 @@
     if (mediaItemCollection) {
         [musicPlayer setQueueWithItemCollection:mediaItemCollection];
         [musicPlayer play];
+        
+        itemsInCollection = mediaItemCollection.count - 1;
+        [prefs setInteger:itemsInCollection forKey:@"itemsInCollection"];
+        currentSong = 0;
+        [prefs setInteger:currentSong forKey:@"currentSong"];
+        
+        if (currentSong + 1 == itemsInCollection) {
+            [nextButton setEnabled:NO];
+        } else {
+            [nextButton setEnabled:YES];
+        }
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [prevButton setEnabled:NO];
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker
@@ -149,7 +214,19 @@
 
 - (IBAction)previousSong:(id)sender
 {
-    [musicPlayer skipToPreviousItem];
+    if (currentSong != 0) {
+        [musicPlayer skipToPreviousItem];
+        currentSong--;
+        [prefs setInteger:currentSong forKey:@"currentSong"];
+        
+        if (currentSong == 0) {
+            [prevButton setEnabled:NO];
+        }
+        
+        [nextButton setEnabled:YES];
+    } else {
+        [prevButton setEnabled:NO];
+    }
 }
 
 - (IBAction)playPause:(id)sender
@@ -163,7 +240,20 @@
 
 - (IBAction)nextSong:(id)sender
 {
-    [musicPlayer skipToNextItem];
+    if (currentSong != itemsInCollection) {
+        [musicPlayer skipToNextItem];
+        currentSong++;
+        [prefs setInteger:currentSong forKey:@"currentSong"];
+        
+        if (currentSong == itemsInCollection) {
+            [nextButton setEnabled:NO];
+        } else {
+            [nextButton setEnabled:YES];
+        }
+    }
+    
+    [prevButton setEnabled:YES];
+    [prevButton setAlpha:1];
 }
 
 #pragma mark - Dealloc

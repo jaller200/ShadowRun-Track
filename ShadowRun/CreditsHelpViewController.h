@@ -9,16 +9,20 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
-@interface CreditsHelpViewController : UIViewController <UIAlertViewDelegate, ADBannerViewDelegate>
+@interface CreditsHelpViewController : UIViewController <ADBannerViewDelegate>
 {
-    __weak IBOutlet UIButton *websiteButton;
-    IBOutlet UIBarButtonItem *settingsButton;
+    __weak IBOutlet UIBarButtonItem *settingsButton;
+    __weak IBOutlet UITextView *copyrightView;
+    __weak IBOutlet UITextView *verseView;
+    
     ADBannerView *adView;
+    NSUserDefaults *prefs;
 }
 
 @property (nonatomic, retain) IBOutlet ADBannerView *adView;
+@property (weak, nonatomic) IBOutlet UIToolbar *defaultToolbar;
+@property (strong, nonatomic) IBOutlet UIImageView *backgroundView;
 
-- (IBAction)gotoWebsite:(id)sender;
 - (IBAction)openSettings:(id)sender;
 
 @end

@@ -13,17 +13,29 @@
 @interface MusicViewController : UIViewController <MPMediaPickerControllerDelegate>
 {
     __weak IBOutlet UIImageView *artworkImageView;
+    __weak IBOutlet UIImageView *artworkBackgroundView;
     __weak IBOutlet UIButton *playPauseButton;
     __weak IBOutlet UILabel *titleLabel;
     __weak IBOutlet UILabel *artistLabel;
     __weak IBOutlet UILabel *albumLabel;
     __weak IBOutlet UISlider *volumeSlider;
     __weak IBOutlet UILabel *volumeLabel;
+    __weak IBOutlet UIButton *nextButton;
+    __weak IBOutlet UIButton *prevButton;
+    __weak IBOutlet UIToolbar *defaultToolbar;
+    
+    IBOutlet UIView *detailsView;;
+    IBOutlet UIImageView *backgroundView;
     
     MPMusicPlayerController *musicPlayer;
+    
+    NSUserDefaults *prefs;
+    NSUInteger itemsInCollection;
+    NSUInteger currentSong;
 }
 
-@property (nonatomic, retain) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 
 // Actions
 - (IBAction)showMediaPicker:(id)sender;

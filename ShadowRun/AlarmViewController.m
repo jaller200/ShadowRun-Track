@@ -7,7 +7,7 @@
 //
 
 #import "AlarmViewController.h"
-#import "AlarmLengthViewController.h"
+#import "UIImage+ImageEffects.h"
 
 @interface AlarmViewController ()
 
@@ -32,14 +32,12 @@
         if ([alarmSetString isEqualToString:@"yes"]) {
             [tbi setTitle:@"Alarm"];
             [tbi setImage:[UIImage imageNamed:@"AlarmOn.png"]];
+            [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"AlarmOn.png"]];
         } else {
             [tbi setTitle:@"Alarm"];
             [tbi setImage:[UIImage imageNamed:@"AlarmOff.png"]];
+            [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"AlarmOff.png"]];
         }
-        
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        int number = [prefs integerForKey:@"alarm_number"];
-        NSLog(@"The Alarm Number is: %d", number);
     }
     
     return self;
@@ -51,24 +49,39 @@
 {
     [super viewDidLoad];
     
+    prefs = [NSUserDefaults standardUserDefaults];
+    
     [datePicker setDate:[NSDate date]];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
+    defaultToolbar.translucent = YES;
+    defaultToolbar.alpha = 0.94;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [datePicker setDate:[NSDate date]];
     
-    NSDate *alarmSetDate = [userDefaults objectForKey:@"alarmDate"];
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    
+    UIImage *background;
+    
+    if (IS_IPHONE_5) {
+        background = [UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch-Blurred.png", backgroundSelected]];
+    } else {
+        background = [UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch-Blurred.png", backgroundSelected]];
+    }
+    
+    [backgroundView setImage:background];
+    
+    NSString *alarmSetDate = [prefs stringForKey:@"alarmDate"];
     NSLog(@"AlarmSetDate = %@", alarmSetDate);
-    
-    NSString *alarmSetString = [dateFormatter stringFromDate:alarmSetDate];
     
     if (alarmSetDate == nil || alarmSetDate == NULL) {
         [[self alarmSetToLabel] setText:@"-Not Set-"];
     } else {
-        [[self alarmSetToLabel] setText:alarmSetString];
+        [[self alarmSetToLabel] setText:alarmSetDate];
     }
 }
 
@@ -87,6 +100,7 @@
     dateFormatter.dateStyle = NSDateFormatterNoStyle;
     
     NSString *dateTimeString = [dateFormatter stringFromDate:[datePicker date]];
+    NSLog(@"dateTimeString = %@", dateTimeString);
     
     NSLog(@"Alarm Set Button Tapped: %@", dateTimeString);
     
@@ -98,7 +112,7 @@
     NSDate *alarmDate = [userDefaults objectForKey:@"alarmDate"];
 
     if (alarmDate == nil || alarmDate == NULL) {
-        [[self alarmSetToLabel] setText:@"-Not Set-"];
+        [[self alarmSetToLabel] setText:NSLocalizedString(@"-Not Set-", @"-Not Set-")];
     } else {
         [[self alarmSetToLabel] setText:[userDefaults stringForKey:@"alarmDate"]];
     }
@@ -106,8 +120,9 @@
     alarmSet = YES;
     
     [[self tabBarItem] setImage:[UIImage imageNamed:@"AlarmOn.png"]];
+    [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"AlarmOn.png"]];
     
-    [self showMessage:@"Alarm Set"];
+    [self showMessage:NSLocalizedString(@"Alarm Set", @"Alarm Set")];
     
     [userDefaults setObject:@"yes" forKey:@"alarmSet"];
 }
@@ -121,21 +136,21 @@
     alarmSet = NO;
     
     [[self tabBarItem] setImage:[UIImage imageNamed:@"AlarmOff.png"]];
+    [[self tabBarItem] setSelectedImage:[UIImage imageNamed:@"AlarmOff.png"]];
     
-    [self showMessage:@"Alarm Canceled"];
+    [self showMessage:NSLocalizedString(@"Alarm Canceled", @"Alarm Canceled")];
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:@"no" forKey:@"alarmSet"];
     
     [userDefaults setObject:nil forKey:@"alarmDate"];
     
-    [[self alarmSetToLabel] setText:@"-Not Set-"];
+    [[self alarmSetToLabel] setText:NSLocalizedString(@"-Not Set-", @"-Not Set-")];
 }
 
 - (void)scheduleLocalNotificationWithDate:(NSDate *)date
 {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    float number = [prefs integerForKey:@"alarm_number"];
+    float number = [prefs floatForKey:@"alarm_number"];
     NSLog(@"The Alarm Number is: %f", number);
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -152,7 +167,7 @@
     NSString *alarmMessage = [userDefault stringForKey:@"alarmMessage"];
     
     if (alarmMessage == NULL || alarmMessage == nil || [alarmMessage isEqualToString:@"(null)"]) {
-        alarmMessage = @"Start Running!";
+        alarmMessage = NSLocalizedString(@"Start Running!", @"Start Running!");
     }
     
     notification.alertBody = alarmMessage;
@@ -165,15 +180,8 @@
 
 - (void)showMessage:(NSString *)message
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alarm" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alarm", @"Alarm") message:message delegate:self cancelButtonTitle:NSLocalizedString(@"OK", @"OK") otherButtonTitles:nil];
     [alert show];
-}
-
-- (IBAction)setAlarmLength:(id)sender
-{
-    AlarmLengthViewController *alarmLengthViewController = [[AlarmLengthViewController alloc] init];
-    
-    [self presentViewController:alarmLengthViewController animated:YES completion:nil];
 }
 
 @end

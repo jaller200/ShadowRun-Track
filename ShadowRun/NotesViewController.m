@@ -11,12 +11,15 @@
 #import "ShadowRunStore.h"
 #import "DetailViewController.h"
 
+#import "UIImage+ImageEffects.h"
+
 @interface NotesViewController ()
 
 @end
 
 @implementation NotesViewController
 @synthesize run, dismissBlock;
+@synthesize closeItem;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -27,8 +30,8 @@
     }
     
     if (self) {
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
-        [[self navigationItem] setRightBarButtonItem:doneItem];
+        closeItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleDone target:self action:@selector(close:)];
+        [[self navigationItem] setRightBarButtonItem:closeItem];
     }
     
     return self;
@@ -49,10 +52,10 @@
     [textViewView setText:[run runNotes]];
     
     if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setText:@"Notes..."];
+        [textViewView setText:NSLocalizedString(@"Notes...", @"Notes...")];
         [textViewView setTextColor:[UIColor lightGrayColor]];
     } else if ([[textViewView text] isEqualToString:@" "]) {
-        [textViewView setText:@"Notes..."];
+        [textViewView setText:NSLocalizedString(@"Notes...", @"Notes...")];
         [textViewView setTextColor:[UIColor lightGrayColor]];
     } else {
         [textViewView setTextColor:[UIColor blackColor]];
@@ -62,21 +65,39 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShown:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-    [imageView setFrame:self.view.frame];
-    [self.view insertSubview:imageView atIndex:0];
+    prefs = [NSUserDefaults standardUserDefaults];
+    
+    // Create blurred background
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    
+    UIImage *image;
+    
+    if (IS_IPHONE_5) {
+        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch-Blurred.png", backgroundSelected]];
+    } else {
+        image = [UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch-Blurred.png", backgroundSelected]];
+    }
+    
+    [backgroundView setImage:image];
+    
+    [textViewView.layer setBorderWidth:0.3f];
+    [textViewView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
+    [textViewView setKeyboardAppearance:UIKeyboardAppearanceDark];
+    
+    close = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    /*if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setText:@"Notes..."];
-        [textViewView setTextColor:[UIColor lightGrayColor]];
+    NSString *theme = [prefs stringForKey:@"keyboardAppearance"];
+    
+    if ([theme isEqualToString:@"light"]) {
+        [textViewView setKeyboardAppearance:UIKeyboardAppearanceLight];
     } else {
-        [textViewView setTextColor:[UIColor blackColor]];
-    }*/
+        [textViewView setKeyboardAppearance:UIKeyboardAppearanceDark];
+    }
 }
 
 #pragma mark - Setters and Getters
@@ -90,10 +111,14 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if ([[textViewView text] isEqualToString:@"Notes..."]) {
+    if ([[textViewView text] isEqualToString:NSLocalizedString(@"Notes...", @"Notes...")]) {
         [textViewView setText:@""];
         [textViewView setTextColor:[UIColor blackColor]];
     }
+    
+    [closeItem setTitle:@"Done"];
+    close = NO;
+
     [textViewView becomeFirstResponder];
 }
 
@@ -101,8 +126,11 @@
 {
     if ([[textViewView text] isEqualToString:@""]) {
         [textViewView setTextColor:[UIColor lightGrayColor]];
-        [textViewView setText:@"Notes..."];
+        [textViewView setText:NSLocalizedString(@"Notes...", @"Notes...")];
     }
+    
+    [closeItem setTitle:@"Close"];
+    close = YES;
     
     [textViewView resignFirstResponder];
 }
@@ -111,10 +139,14 @@
 
 - (IBAction)close:(id)sender
 {
-    NSLog(@"NotesViewController - Closing");
+    if (close) {
+        NSLog(@"NotesViewController - Closing");
     
-    [run setRunNotes:[textViewView text]];
-    [[self navigationController] dismissViewControllerAnimated:YES completion:dismissBlock];
+        [run setRunNotes:[textViewView text]];
+        [[self navigationController] dismissViewControllerAnimated:YES completion:dismissBlock];
+    } else {
+        [textViewView endEditing:YES];
+    }
 }
 
 - (IBAction)backgroundTapped:(id)sender
@@ -144,9 +176,9 @@
     CGRect keyboardFrame = [self.view convertRect:keyboardEndFrame toView:nil];
     
     if (IS_IPHONE_5) {
-        newFrame.size.height -= keyboardFrame.size.height * (up?0.25:-0.25);
+        newFrame.size.height -= keyboardFrame.size.height * (up ? 0.25 : -0.25);
     } else {
-        newFrame.size.height -= keyboardFrame.size.height * (up?0.75:-0.75);
+        newFrame.size.height -= keyboardFrame.size.height * (up ? 0.75 : -0.75);
     }
 
     textViewView.frame = newFrame;

@@ -9,9 +9,11 @@
 #import "DetailViewController.h"
 #import "ShadowRun.h"
 #import "ShadowRunStore.h"
-#import "RunTypePicker.h"
 #import "ShadowRunViewController.h"
 #import "NotesViewController.h"
+#import "UIImage+ImageEffects.h"
+
+#import "ShadowRunAppDelegate.h"
 
 @implementation UITextField (Additions)
 
@@ -25,8 +27,11 @@
     [label setText:suffix];
     
     UIFont *font = label.font;
+    
+    CGSize suffixSize;
     NSDictionary *attrs = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    CGSize suffixSize = [suffix sizeWithAttributes:attrs];
+    suffixSize = [suffix sizeWithAttributes:attrs];
+    
     label.frame = CGRectMake(0, 0, suffixSize.width, self.frame.size.height);
     
     [self setRightView:label];
@@ -40,10 +45,10 @@
 #pragma mark - Synthesize Methods
 @synthesize dismissBlock, run, speed;
 @synthesize datePicker, pickerView, timeOfDayPickerView;
-@synthesize changeDateButton, notesButton;
+@synthesize notesButton;
 @synthesize timeField = timeField;
 @synthesize defaultToolbar;
-@synthesize stopwatchTimeString;
+@synthesize embedView = embedView;
 
 // PickerView Methods
 @synthesize pickerRun;
@@ -79,8 +84,6 @@
             self.navigationController.navigationBar.delegate = self;
             
             [[self navigationController] disablesAutomaticKeyboardDismissal];
-            
-            isMiles = YES;
         }
         
         if (isFromStopwatch) {
@@ -116,31 +119,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[self view] setAlpha:0.85];
     
-    if (IS_IPHONE_5) {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4~5.png"]];
-        [imageView setFrame:self.view.frame];
-        
-        [self.view insertSubview:imageView atIndex:0];
-    } else {
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-        [imageView setFrame:self.view.frame];
+    prefs = [NSUserDefaults standardUserDefaults];
     
-        [self.view insertSubview:imageView atIndex:0];
-    }
+    defaultToolbar.barStyle = UIBarStyleDefault;
+    defaultToolbar.translucent = YES;
+    defaultToolbar.alpha = 0.94;
     
     [titleField setDelegate:self];
-
-    [textViewView setDelegate:self];
-    
-    if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setText:@"Notes..."];
-        [textViewView setTextColor:[UIColor lightGrayColor]];
-    } else {
-        [textViewView setTextColor:[UIColor blackColor]];
-        [textViewView setText:[run runNotes]];
-    }
     
     runTypeField.delegate = self;
     runTypeField.tag = 3005;
@@ -148,22 +134,138 @@
     timeOfDayField.tag = 30061;
     
     dateButton.titleLabel.textAlignment = NSTextAlignmentLeft;
+
+    ShadowRunAppDelegate *appDelegate = (ShadowRunAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    NSInteger defaultHeight = 0;
+    
+    if (IS_IPHONE_5) {
+        defaultHeight = 614;
+        isIphone5 = YES;
+    } else {
+        defaultHeight = 544;
+        isIphone5 = NO;
+    }
+    
+    datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, defaultHeight, 320, 216)];
+    [datePicker setHidden:NO];
+    [[appDelegate window] insertSubview:datePicker aboveSubview:[[[appDelegate window] rootViewController] view]];
+    
+    toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, defaultHeight, 320, 44)];
+    [toolbar setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+    [toolbar setHidden:NO];
+    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
+    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
+    [[appDelegate window] insertSubview:toolbar aboveSubview:[[[appDelegate window] rootViewController] view]];
+    
+    pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, defaultHeight, 320, 216)];
+    [pickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+    [pickerView setHidden:NO];
+    [[appDelegate window] insertSubview:pickerView aboveSubview:[[[appDelegate window] rootViewController] view]];
+    
+    timeOfDayPickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, defaultHeight, 320, 216)];
+    [timeOfDayPickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+    [timeOfDayPickerView setHidden:NO];
+    [[appDelegate window] insertSubview:timeOfDayPickerView aboveSubview:[[[appDelegate window] rootViewController] view]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    // Create the accessory toolbar
+    UIToolbar *accessoryToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+    
+    UIBarButtonItem *doneAccessItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
+    UIBarButtonItem *flexAccessSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    
+    [accessoryToolbar setItems:[NSArray arrayWithObjects:flexAccessSpace, doneAccessItem, nil] animated:NO];
+    
+    
+    // Create the keyboard accessory views
+    [titleField setInputAccessoryView:accessoryToolbar];
+    [timeField setInputAccessoryView:accessoryToolbar];
+    [distanceField setInputAccessoryView:accessoryToolbar];
+    [temperatureField setInputAccessoryView:accessoryToolbar];
+    
+    // Create the keyboard appearance
+    NSString *theme = [prefs stringForKey:@"keyboardAppearance"];
+    
+    NSLog(@"theme = %@", theme);
+    
+    if ([theme isEqualToString:@"light"]) {
+        [titleField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        [distanceField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        [timeField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        [temperatureField setKeyboardAppearance:UIKeyboardAppearanceLight];
+        [pickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+        [timeOfDayPickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+        [datePicker setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
+        [toolbar setBarStyle:UIBarStyleDefault];
+        [accessoryToolbar setBarStyle:UIBarStyleDefault];
+        
+        
+        // - This is info for the theme options (migrated from Keyboard Appearance) that will
+        // - Be release in Release 2.1.0
+        /*[defaultToolbar setBarStyle:UIBarStyleDefault];
+        
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        self.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+        self.tabBarController.tabBar.translucent = YES;
+        self.tabBarController.tabBar.alpha = 0.94;*/
+    } else {
+        [titleField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [distanceField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [timeField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [temperatureField setKeyboardAppearance:UIKeyboardAppearanceDark];
+        [pickerView setBackgroundColor:[UIColor colorWithWhite:0.222 alpha:1]];
+        [timeOfDayPickerView setBackgroundColor:[UIColor colorWithWhite:0.222 alpha:1]];
+        [datePicker setBackgroundColor:[UIColor colorWithWhite:0.222 alpha:1]];
+        [toolbar setBarStyle:UIBarStyleBlack];
+        [accessoryToolbar setBarStyle:UIBarStyleBlack];
+        
+        
+        // - This is info for the theme options (migrated from Keyboard Appearance) that will
+        // - Be release in Release 2.1.0
+        /*[defaultToolbar setBarStyle:UIBarStyleBlackTranslucent];
+        
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.tabBarController.tabBar.barTintColor = [UIColor blackColor];
+        self.tabBarController.tabBar.translucent = YES;
+        self.tabBarController.tabBar.alpha = 0.94;*/
+    }
+    
+    
+    // Create the background UIImage....
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    UIImage *background;
+    
+    // .... and populate it with the correct image
+    if (IS_IPHONE_5) {
+        background = [UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch-Blurred.png", backgroundSelected]];
+    } else {
+        background = [UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch-Blurred.png", backgroundSelected]];
+    }
+    
+    [backgroundView setImage:background];
+    
+    
+    // Set delegates and tags for UITextViews
     [distanceField setDelegate:self];
     [timeField setDelegate:self];
+    [titleField setDelegate:self];
     
     [distanceField setTag:2013];
     [timeField setTag:2014];
+    [titleField setTag:2016];
     
-    [timeField setSuffixText:@"Minutes"];
+    // No need for this right now, I can just use UILabel in IB
+    //[timeField setSuffixText:NSLocalizedString(@"Minutes", @"Minutes")];
     
     [titleField setText:[run runTitle]];
     
+    // Create the number formatter and trim the distance and speed to 2 decimal places
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
     [numFormat setMaximumFractionDigits:2];
@@ -172,6 +274,7 @@
     
     NSLog(@"%f", [run speed]);
     
+    // isFromStopwatchBOOL not fully implemented... isFromStopwatchBOOL is always YES
     if (isFromStopwatchBOOL) {
         NSLog(@"DetailViewController - isFromStopwatchBOOL = YES");
         [timeField setText:[NSString stringWithFormat:@"%.2f", speed]];
@@ -179,7 +282,8 @@
         NSLog(@"DetailViewController - isFromStopwatchBOOL = NO");
         [timeField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run time]]]]];
     }
-    
+
+    // Now optimize numFormat for temperature - 1 decimal place
     [numFormat setMaximumFractionDigits:1];
     
     float runTemp = [run temperature];
@@ -190,28 +294,20 @@
         [temperatureField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:[run temperature]]]]];
     }
     
+    // Create the date formatters and set the dates
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     
     NSDate *date = [run dateCreated];
-    [dateLabel setText:[dateFormatter stringFromDate:date]];
     [dateButton setTitle:[dateFormatter stringFromDate:date] forState:UIControlStateNormal];
     
+    // Set the run type
     NSString *typeLabel = [[run type] valueForKey:@"label"];
     if (!typeLabel) {
-        typeLabel = @"No Run Type";
+        typeLabel = NSLocalizedString(@"No Run Type", @"No Run Type");
     }
-    [runTypeButton setTitle:[NSString stringWithFormat:@"Run Type: %@", typeLabel] forState:UIControlStateNormal];
     [runTypeField setText:[NSString stringWithFormat:@"%@", typeLabel]];
-    
-    if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setText:@"Notes..."];
-        [textViewView setTextColor:[UIColor lightGrayColor]];
-    } else {
-        [textViewView setTextColor:[UIColor blackColor]];
-        [textViewView setText:[run runNotes]];
-    }
     
     [self calculateAveragePace];
     
@@ -227,14 +323,14 @@
     
     if (isNewRun) {
         [run setMileKilos:@"miles"];
-        [milesKilosButton setTitle:[NSString stringWithFormat:@"Miles"] forState:UIControlStateNormal];
+        [milesKilosButton setTitle:[NSString stringWithFormat:NSLocalizedString(@"Miles", @"Miles")] forState:UIControlStateNormal];
     } else {
         NSString *milesKilos = [run mileKilos];
         
         if ([milesKilos isEqualToString:@"miles"]) {
-            [milesKilosButton setTitle:@"Miles" forState:UIControlStateNormal];
+            [milesKilosButton setTitle:NSLocalizedString(@"Miles", @"Miles") forState:UIControlStateNormal];
         } else {
-            [milesKilosButton setTitle:@"Kilometers" forState:UIControlStateNormal];
+            [milesKilosButton setTitle:NSLocalizedString(@"Kilometers", @"Kilometers") forState:UIControlStateNormal];
         }
     }
     
@@ -264,7 +360,9 @@
     [super viewWillDisappear:animated];
     
     [[self view] endEditing:YES];
+    [self backgroundTapped:self];
     
+    // Set the run entities objects
     [run setRunTitle:[titleField text]];
     [run setSpeed:[[distanceField text] floatValue]];
     [run setTime:[[timeField text] floatValue]];
@@ -292,98 +390,6 @@
     } else {
         NSLog(@"DetailViewController - Could not save run");
     }
-    
-    if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setText:@"Notes..."];
-        
-        [textViewView setTextColor:[UIColor lightGrayColor]];
-    } else {
-        [textViewView setTextColor:[UIColor blackColor]];
-        [textViewView setText:[run runNotes]];
-    }
-    
-    // Alert view is not in the right place...Gonna fix this soon.....
-    /*if ([[titleField text] isEqualToString:@""]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Attention!"
-                                                        message:@"The run does not have a name"
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-    }*/
-    
-    [datePicker setHidden:YES];
-    [toolbar setHidden:YES];
-}
-
-- (void)willMoveToParentViewController:(UIViewController *)parent
-{
-    if (!parent) {
-        NSLog(@"DetailViewController - Moving to Parent View Controller");
-        ShadowRunViewController *shadowRunViewController = [[ShadowRunViewController alloc] init];
-        [[shadowRunViewController view] setNeedsDisplay];
-        [[shadowRunViewController tableView] reloadData];
-    }
-}
-
-#pragma mark - TextView Delegate Methods
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25];
-    
-    if (IS_IPHONE_5) {
-        if (isNewRun) {
-            self.view.frame = CGRectMake(0, -170, 320, 400);
-        } else {
-            self.view.frame = CGRectMake(0, -115, 320, 600);
-        }
-    } else {
-        if (isNewRun) {
-            self.view.frame = CGRectMake(0, -170, 320, 400);
-        } else {
-            self.view.frame = CGRectMake(0, -115, 320, 400);
-        }
-    }
-    
-    if ([[textViewView text] isEqualToString:@"Notes..."]) {
-        [textViewView setText:@""];
-        [textViewView setTextColor:[UIColor blackColor]];
-    }
-    [textViewView becomeFirstResponder];
-    
-    [UIView commitAnimations];
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
-    if ([[textViewView text] isEqualToString:@""]) {
-        [textViewView setTextColor:[UIColor lightGrayColor]];
-        [textViewView setText:@"Notes..."];
-    } else {
-        [run setRunNotes:[textViewView text]];
-    }
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25];
-    
-    if (IS_IPHONE_5) {
-        if (isNewRun) {
-            self.view.frame = CGRectMake(0, 0, 320, 570);
-        } else {
-            self.view.frame = CGRectMake(0, 0, 320, 550);
-        }
-    } else {
-        if (isNewRun) {
-            self.view.frame = CGRectMake(0, 0, 320, 500);
-        } else {
-            self.view.frame = CGRectMake(0, 0, 320, 450);
-        }
-    }
-    
-    [textViewView resignFirstResponder];
-    [UIView commitAnimations];
 }
 
 #pragma mark - TextField Delegate Methods
@@ -400,38 +406,10 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    //[textField becomeFirstResponder];
-    
-    if (textField.tag != 3005 || textField.tag != 30061) {
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.25];
-        
-        if (IS_IPHONE_5) {
-            
-        } else {
-            self.view.frame = CGRectMake(0, 0, 320, 480);
-        }
-        
-        [UIView commitAnimations];
-        
-        [pickerView endEditing:YES];
-        [pickerView setHidden:YES];
-        [toolbar setHidden:YES];
-    }
+    [self hidePickerViews:self];
     
     if (textField.tag == 2013) {
         [textField becomeFirstResponder];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.25];
-        
-        [pickerView setHidden:YES];
-        [toolbar setHidden:YES];
-        
-        if (IS_IPHONE_5 == NO) {
-            self.view.frame = CGRectMake(0, 0, 320, 480);
-        }
-        
-        [UIView commitAnimations];
         
         if ([textField.text isEqual:@"0"]) {
             [textField setText:@""];
@@ -447,17 +425,6 @@
     
     if (textField.tag == 2014) {
         [textField becomeFirstResponder];
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.25];
-        
-        [pickerView setHidden:YES];
-        [toolbar setHidden:YES];
-        
-        if (IS_IPHONE_5 == NO) {
-            self.view.frame = CGRectMake(0, 0, 320, 480);
-        }
-        
-        [UIView commitAnimations];
         
         if ([textField.text isEqualToString:@"0"]) {
             [textField setText:@""];
@@ -473,16 +440,25 @@
     
     if (textField.tag == 2015) {
         [textField becomeFirstResponder];
-        NSLog(@"Cool");
-        
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.35];
         
         if (IS_IPHONE_5) {
-            //self.view.frame = CGRectMake(0, -40, 320, 480);
-            NSLog(@"YAY!");
+
         } else {
-            self.view.frame = CGRectMake(0, -45, 320, 480);
+            [UIView animateWithDuration:0.0
+                             animations:^{
+                                 self.embedView.frame = CGRectMake(0, 61, 320, isNewRun ? 371 : 323);
+                             }
+                             completion:^(BOOL success) {
+                                 [UIView animateWithDuration:0.5
+                                                       delay:0.0
+                                      usingSpringWithDamping:500.0f
+                                       initialSpringVelocity:0.0f
+                                                     options:UIViewAnimationOptionCurveEaseIn
+                                                  animations:^{
+                                                      self.embedView.frame = CGRectMake(0, -30, 320, isNewRun ? 371 : 323);
+                                                  }
+                                                  completion:nil];
+                             }];
         }
     
         [UIView commitAnimations];
@@ -512,19 +488,25 @@
     }
     
     if (textField.tag == 2015) {
-        [UIView beginAnimations:Nil context:NULL];
-        [UIView setAnimationDuration:0.35];
-        
-        if (IS_IPHONE_5 == NO) {
-            self.view.frame = CGRectMake(0, 0, 320, 480);
-        }
-        
+        [UIView animateWithDuration:0.0
+                         animations:nil
+                         completion:^(BOOL success) {
+                             [UIView animateWithDuration:0.5
+                                                   delay:0.0
+                                  usingSpringWithDamping:500.0f
+                                   initialSpringVelocity:0.0f
+                                                 options:UIViewAnimationOptionCurveEaseIn
+                                              animations:^{
+                                                  if (!isIphone5) {
+                                                      self.view.frame = CGRectMake(0, 0, 320, 480);
+                                                  }
+                                              }
+                                              completion:nil];
+                         }];
         [UIView commitAnimations];
     }
-    
-    if (textField.tag == 3005) {
-        
-    }
+
+    [[self navigationItem] setTitle:[titleField text]];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -590,7 +572,7 @@
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
     if (alertView.tag == 3001) {
-        if ([title isEqualToString:@"Yes"]) {
+        if ([title isEqualToString:NSLocalizedString(@"Yes", "Yes")]) {
             [self afterConvert:self];
         } else {
             return;
@@ -598,7 +580,7 @@
     }
     
     if (alertView.tag == 3002) {
-        if ([title isEqualToString:@"Yes"]) {
+        if ([title isEqualToString:NSLocalizedString(@"Yes", "Yes")]) {
             [[self presentingViewController] dismissViewControllerAnimated:YES completion:dismissBlock];
         } else {
             return;
@@ -610,23 +592,22 @@
 
 - (IBAction)convert:(id)sender
 {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
     
     if (milesOrKilometers) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Convert"
-                                                        message:@"Convert the current distance to Miles (rounded)?"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Convert", @"Convert")
+                                                        message:NSLocalizedString(@"Convert the current distance to Miles (rounded)?", @"Convert the current distance to Miles (rounded)?")
                                                        delegate:self
-                                              cancelButtonTitle:@"No"
-                                              otherButtonTitles:@"Yes", nil];
+                                              cancelButtonTitle:NSLocalizedString(@"No", @"No")
+                                              otherButtonTitles:NSLocalizedString(@"Yes", @"Yes"), nil];
         alertView.tag = 3001;
         [alertView show];
     } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Convert"
-                                                            message:@"Convert the current distance to Kilometers (rounded)?"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Convert", @"Convert")
+                                                            message:NSLocalizedString(@"Convert the current distance to Kilometers (rounded)?", @"Convert the current distance to Kilometers (rounded)?")
                                                            delegate:self
-                                                  cancelButtonTitle:@"No"
-                                                  otherButtonTitles:@"Yes", nil];
+                                                  cancelButtonTitle:NSLocalizedString(@"No", @"No")
+                                                  otherButtonTitles:NSLocalizedString(@"Yes", @"Yes"), nil];
         alertView.tag = 3001;
         [alertView show];
     }
@@ -634,7 +615,6 @@
 
 - (IBAction)afterConvert:(id)sender
 {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
     
     if (milesOrKilometers) {
@@ -667,7 +647,7 @@
 - (void)save:(id)sender
 {
     if ([[titleField text] isEqualToString:@""]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Warning!" message:@"You have not given this run a name. Would you like to proceed without one?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning!", @"Warning!") message:NSLocalizedString(@"You have not given this run a name. Would you like to proceed without one?", @"You have not given this run a name. Would you like to proceed without one?") delegate:self cancelButtonTitle:NSLocalizedString(@"No", @"No") otherButtonTitles:NSLocalizedString(@"Yes", @"Yes"), nil];
         alertView.tag = 3002;
         [alertView show];
     } else {
@@ -711,15 +691,15 @@
     if ([milesKilos isEqualToString:@"miles"]) {
         NSLog(@"DetailViewController - Changing to Kilos");
         [run setMileKilos:@"kilos"];
-        [milesKilosButton setTitle:@"Kilometers" forState:UIControlStateNormal];
+        [milesKilosButton setTitle:NSLocalizedString(@"Kilometers", @"Kilometers") forState:UIControlStateNormal];
     } else if ([milesKilos isEqualToString:@"kilos"]) {
         NSLog(@"DetailViewController - Changing to Miles");
         [run setMileKilos:@"miles"];
-        [milesKilosButton setTitle:@"Miles" forState:UIControlStateNormal];
+        [milesKilosButton setTitle:NSLocalizedString(@"Miles", @"Miles") forState:UIControlStateNormal];
     } else {
         NSLog(@"DetailViewController - Undefined value for mileKilos...Changing to \"Miles\"");
         [run setMileKilos:@"miles"];
-        [milesKilosButton setTitle:@"Miles" forState:UIControlStateNormal];
+        [milesKilosButton setTitle:NSLocalizedString(@"Miles", @"Miles") forState:UIControlStateNormal];
     }
 }
 
@@ -747,102 +727,56 @@
 - (IBAction)showRunTypePicker:(id)sender
 {
     [pickerView endEditing:YES];
-    [pickerView setHidden:YES];
-    [toolbar setHidden:YES];
     
-    if (IS_IPHONE_5) {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, 0, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, 0, 320, 600);
-        }
-        
-        if (isNewRun) {
-            pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 352, 325, 300)];
-        } else {
-            pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 303, 325, 300)];
-        }
-        [pickerView setDataSource:self];
-        [pickerView setDelegate:self];
-        [pickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [pickerView setHidden:NO];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 308, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 259, 320, 44)];
-        }
-        toolbar.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-        
-        if ([[runTypeField text] isEqualToString:@"No Run Type"]) {
-            [pickerView selectRow:2 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Easy Run"]) {
-            [pickerView selectRow:0 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Strength Run (Hills)"]) {
-            [pickerView selectRow:1 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Distance Run"]) {
-            [pickerView selectRow:2 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Tempo Run"]) {
-            [pickerView selectRow:3 inComponent:0 animated:YES];
-        }
-    } else {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, -15, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, -35, 320, 500);
-        }
-        
-        if (isNewRun) {
-            pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 279, 325, 400)];
-        } else {
-            pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 275, 325, 400)];
-        }
-        [pickerView setDataSource:self];
-        [pickerView setDelegate:self];
-        [pickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [pickerView setHidden:NO];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 235, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 231, 320, 44)];
-        }
-        
-        [toolbar setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-        
-        if ([[runTypeField text] isEqualToString:@"No Run Type"]) {
-            [pickerView selectRow:2 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Easy Run"]) {
-            [pickerView selectRow:0 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Strength Run (Hills)"]) {
-            [pickerView selectRow:1 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Distance Run"]) {
-            [pickerView selectRow:2 inComponent:0 animated:YES];
-        } else if ([[runTypeField text] isEqualToString:@"Tempo Run"]) {
-            [pickerView selectRow:3 inComponent:0 animated:YES];
+    [self hidePickerViews:self];
+    
+    NSLog(@"isIphone5 = %d", isIphone5 ? 1 : 0);
+    
+    [UIView animateWithDuration:0 delay:0.0
+         usingSpringWithDamping:500.0f
+          initialSpringVelocity:0.0f
+                        options:UIViewAnimationOptionCurveEaseIn animations:^{
+                            self.embedView.frame = CGRectMake(0, 61, 320, isIphone5 ? 414 : 323);
+                        }
+                     completion:^(BOOL success) {
+                            [UIView animateWithDuration:.5
+                                                  delay:0.0
+                                 usingSpringWithDamping:500.0f
+                                  initialSpringVelocity:0.0f
+                                                options:UIViewAnimationOptionCurveEaseIn
+                                             animations:^{
+                                                toolbar.frame = CGRectMake(0, isIphone5 ? 308 : 220, 320, 44);
+                                                pickerView.frame = CGRectMake(0, isIphone5 ? 352 : 264, 320, 216);
+                                                  
+                                                  
+                                                if (isIphone5 == NO) {
+                                                    self.embedView.frame = CGRectMake(0, 50, 320, 323);
+                                                }
+                                            }
+                                             completion:nil];
+                            }];
+    
+    [pickerView setDataSource:self];
+    [pickerView setDelegate:self];
+    
+    NSString *type = [runTypeField text];
+    NSMutableArray *finalArray = [[NSMutableArray alloc] init];
+    int objectIndex;
+    
+    for (NSManagedObjectContext *object in [[ShadowRunStore sharedStore] allRunTypes]) {
+        NSString *runType = [object valueForKey:@"label"];
+        [finalArray addObject:runType];
+    }
+    
+    for (objectIndex = 0; objectIndex < [finalArray count]; objectIndex++) {
+        if ([finalArray[objectIndex] isEqualToString:type]) {
+            break;
         }
     }
     
-    [[self view] addSubview:toolbar];
-    [[self view] addSubview:pickerView];
+    NSLog(@"objectIndex = %d", objectIndex);
     
-    NSTimeInterval animationDuration = 0.25;
-    UIViewAnimationCurve animationCurve = 7;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
+    [pickerView selectRow:objectIndex inComponent:0 animated:NO];
     
     [UIView commitAnimations];
 }
@@ -852,85 +786,41 @@
 - (IBAction)showTimeOfDayPicker:(id)sender
 {
     NSLog(@"DetailViewController - TimeOfDay Set");
+
+    timeOfDayPickerView.hidden = NO;
+    toolbar.hidden = NO;
     
-    [timeOfDayPickerView setHidden:YES];
-    [toolbar setHidden:YES];
-    [pickerView setHidden:YES];
+    [self hidePickerViews:self];
     
-    if (IS_IPHONE_5) {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, 0, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, 0, 320, 600);
-        }
-        
-        if (isNewRun) {
-            timeOfDayPickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 360, 325, 300)];
-        } else {
-            timeOfDayPickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 311, 325, 300)];
-        }
-        [timeOfDayPickerView setDatePickerMode:UIDatePickerModeTime];
-        [timeOfDayPickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [timeOfDayPickerView setHidden:NO];
-        [timeOfDayPickerView setDate:[run timeOfDay]];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 316, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 267, 320, 44)];
-        }
-        toolbar.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-    } else {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, -50, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, -65
-                                         , 320, 600);
-        }
-        
-        if (isNewRun) {
-            timeOfDayPickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 314, 325, 300)];
-        } else {
-            timeOfDayPickerView = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 315, 325, 300)];
-        }
-        [timeOfDayPickerView setDatePickerMode:UIDatePickerModeTime];
-        [timeOfDayPickerView setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [timeOfDayPickerView setHidden:NO];
-        [timeOfDayPickerView setDate:[run timeOfDay]];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 270, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 271, 320, 44)];
-        }
-        toolbar.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-    }
+    [UIView animateWithDuration:0.0
+                     animations:^{
+                         self.embedView.frame = CGRectMake(0, 61, 320, isIphone5 ? 414 : 323);
+                     }
+                     completion:^(BOOL success) {
+                         [UIView animateWithDuration:0.5
+                                               delay:0.0
+                              usingSpringWithDamping:500.0f
+                               initialSpringVelocity:0.0f
+                                             options:UIViewAnimationOptionCurveEaseIn
+                                          animations:^{
+                                              toolbar.frame = CGRectMake(0, isIphone5 ? 308 : 220, 320, 44);
+                                              timeOfDayPickerView.frame = CGRectMake(0, isIphone5 ? 352 : 264, 320, 216);
+                                              
+                                              if (!isIphone5) {
+                                                  self.embedView.frame = CGRectMake(0, 15, 320, 323);
+                                              }
+                                          }
+                                          completion:nil];
+                     }];
     
-    [[self view] addSubview:toolbar];
+    [timeOfDayPickerView setDatePickerMode:UIDatePickerModeTime];
+    [timeOfDayPickerView setDate:[run timeOfDay] animated:NO];
     
     [timeOfDayPickerView addTarget:self action:@selector(changeTimeOfDay:) forControlEvents:UIControlEventValueChanged];
     
-    [[self view] addSubview:timeOfDayPickerView];
-    
-    NSTimeInterval animationDuration = 0.25;
-    UIViewAnimationCurve animationCurve = 7;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    [UIView setAnimationCurve:animationCurve];
-    
-    [UIView commitAnimations];}
-
+    [UIView commitAnimations];
+}
+     
 - (IBAction)changeTimeOfDay:(id)sender
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -951,84 +841,31 @@
 {
     NSLog(@"DetailViewController - Changing date.");
     
-    [datePicker setHidden:YES];
-    [toolbar setHidden:YES];
+    [self hidePickerViews:self];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25];
+    [UIView animateWithDuration:0.0
+                     animations:^{
+                         self.embedView.frame = CGRectMake(0, 61, 320, isIphone5 ? 414 : 323);
+                     } completion:^(BOOL success) {
+                         [UIView animateWithDuration:0.5
+                                               delay:0.0
+                              usingSpringWithDamping:500.0f
+                               initialSpringVelocity:0.0f
+                                             options:UIViewAnimationOptionCurveEaseIn
+                                          animations:^{
+                                              self.datePicker.frame = CGRectMake(0, isIphone5 ? 352 : 264, 320, 216);
+                                              toolbar.frame = CGRectMake(0, isIphone5 ? 308 : 220, 320, 44);
+                                              
+                                              self.embedView.frame = CGRectMake(0, isIphone5 ? 0 : -80, 320, isIphone5 ? 414 : 323);
+                                          }
+                                          completion:nil];
+                     }];
     
-    if (IS_IPHONE_5) {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, -65, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, -105, 320, 600);
-        }
-        
-        if (isNewRun) {
-            datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 417, 325, 300)];
-        } else {
-            datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 403, 325, 300)];
-        }
-        [datePicker setDatePickerMode:UIDatePickerModeDate];
-        [datePicker setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [datePicker setHidden:NO];
-        [datePicker setDate:[run dateCreated]];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 373, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 359, 320, 44)];
-        }
-        toolbar.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-    } else {
-        if (isNewRun) {
-            NSLog(@"DetailViewController - IsNewRun");
-            self.view.frame = CGRectMake(0, -150, 320, 600);
-        } else {
-            NSLog(@"DetailViewController - IsNotNewRun");
-            self.view.frame = CGRectMake(0, -195, 320, 580);
-        }
-        
-        if (isNewRun) {
-            datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 414, 325, 400)];
-        } else {
-            datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 410, 325, 400)];
-        }
-        
-        [datePicker setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        [datePicker setDatePickerMode:UIDatePickerModeDate];
-        [datePicker setHidden:NO];
-        [datePicker setDate:[run dateCreated]];
-        
-        if (isNewRun) {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 370, 320, 44)];
-        } else {
-            toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 371, 320, 44)];
-        }
-        
-        [toolbar setBackgroundColor:[UIColor colorWithWhite:1 alpha:1]];
-        UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(backgroundTapped:)];
-        UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        toolbar.items = [NSArray arrayWithObjects:flexSpace, doneItem, nil];
-    }
-    
-    [[self view] addSubview:toolbar];
+    [datePicker setDatePickerMode:UIDatePickerModeDate];
+    [datePicker setDate:[run dateCreated] animated:NO];
     
     [datePicker addTarget:self action:@selector(dateChange:) forControlEvents:UIControlEventValueChanged];
-    
-    [[self view] addSubview:datePicker];
-    
     [UIView commitAnimations];
-}
-
-- (IBAction)calculateTime:(id)sender
-{
-    NSLog(@"DetailViewController - Calculate Time...");
 }
 
 - (void)dateChange:(id)sender
@@ -1037,7 +874,6 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     NSString *dateString = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[datePicker date]]];
-    [dateLabel setText:[NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[datePicker date]]]];
     [dateButton setTitle:[NSString stringWithFormat:@"%@", [dateFormatter stringFromDate:[datePicker date]]] forState:UIControlStateNormal];
     
     [run setDateCreated:[dateFormatter dateFromString:dateString]];
@@ -1111,7 +947,7 @@
 }
 
 // Currently unused method...may use in future, so I will keep it.
-- (float)calculateMph
+/*- (float)calculateMph
 {
     float miles = [[distanceField text] floatValue];
     float timeInMin = [[timeField text] floatValue];
@@ -1120,7 +956,6 @@
     
     float mph = miles / time;
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
     
     NSString *mphAvg = nil;
@@ -1158,7 +993,7 @@
     [run setAvgMph:mph];
     
     return mph;
-}
+}*/
 
 #pragma mark - Other Methods
 
@@ -1166,61 +1001,24 @@
 {
     NSLog(@"DetailViewController - Background Tapped");
     
-    if (datePicker.hidden == NO || pickerView.hidden == NO)
-    {
-        //NSLog(@"datePicker is not hidden");
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.15];
-        
-        if (IS_IPHONE_5) {
-            if (isNewRun) {
-                NSLog(@"IsNew");
-                self.view.frame = CGRectMake(0, 0, 320, 570);
-            } else {
-                NSLog(@"IsNotNew");
-                self.view.frame = CGRectMake(0, 0, 320, 550);
-            }
-        } else {
-            if (isNewRun) {
-                NSLog(@"IsNew");
-                self.view.frame = CGRectMake(0, 0, 320, 500);
-            } else {
-                NSLog(@"IsNotNew");
-                self.view.frame = CGRectMake(0, 0, 320, 450);
-            }
-        }
-        toolbar.hidden = YES;
-        [datePicker setHidden:YES];
-        [pickerView setHidden:YES];
-        
-        [UIView commitAnimations];
-    }
+    // Hide all pickerviews/toolbars
+    [self hidePickerViews:self];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.15];
-    
-    [toolbar setHidden:YES];
+    // End all editing
     [runTypeField endEditing:YES];
-    [runTypeField resignFirstResponder];
-    
+    [temperatureField endEditing:YES];
+    [timeField endEditing:YES];
+    [distanceField endEditing:YES];
+    [titleField endEditing:YES];
     [pickerView endEditing:YES];
-    [datePicker setHidden:YES];
-    [pickerView setHidden:YES];
     [temperatureField endEditing:YES];
     [timeOfDayPickerView endEditing:YES];
-    [timeOfDayPickerView setHidden:YES];
     
-    [timeField resignFirstResponder];
-    [distanceField resignFirstResponder];
-    [titleField resignFirstResponder];
-    [textViewView resignFirstResponder];
-    [pickerView resignFirstResponder];
-    [temperatureField resignFirstResponder];
-    [timeOfDayField resignFirstResponder];
-    
+    // Set the run distance/time for the entity
     [run setTime:[[timeField text] floatValue]];
     [run setSpeed:[[distanceField text] floatValue]];
     
+    // Set the text field distance/time
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
     [numFormat setMaximumFractionDigits:2];
@@ -1232,15 +1030,32 @@
     [self calculateAveragePace];
 }
 
-- (IBAction)hidePickerView:(id)sender
+- (IBAction)hidePickerViews:(id)sender
 {
-    NSLog(@"DetailViewController - End Picker View");
-    [pickerView endEditing:YES];
-    [pickerView resignFirstResponder];
-    [pickerView setHidden:YES];
-    toolbar.hidden = YES;
+    NSLog(@"datePicker is not hidden");
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.25];
+    
+    [UIView animateWithDuration:0.0
+                     animations:nil
+                     completion:^(BOOL success) {
+                         [UIView animateWithDuration:0.5
+                                               delay:0.0
+                              usingSpringWithDamping:500.0f
+                               initialSpringVelocity:0.0f
+                                             options:UIViewAnimationOptionCurveEaseIn
+                                          animations:^{
+                                              self.embedView.frame = CGRectMake(0, 61, 320, isIphone5 ? 414 : 323);
+                                              toolbar.frame = CGRectMake(0, isIphone5 ? 568 : 480, 320, 44);
+                                              datePicker.frame = CGRectMake(0, isIphone5 ? 612 : 524, 320, 216);
+                                              pickerView.frame = CGRectMake(0, isIphone5 ? 612 : 524, 320, 216);
+                                              timeOfDayPickerView.frame = CGRectMake(0, isIphone5 ? 612 : 524, 320, 216);
+                                          }
+                                          completion:nil];
+                     }];
+    
+    [UIView commitAnimations];
 }
-
 
 #pragma mark - PickerView Methods/Delegate Methods
 
@@ -1271,9 +1086,8 @@
     
     NSString *typeLabel = [[run type] valueForKey:@"label"];
     if (!typeLabel) {
-        typeLabel = @"No Run Type";
+        typeLabel = NSLocalizedString(@"No Run Type", @"No Run Type");
     }
-    [runTypeButton setTitle:[NSString stringWithFormat:@"Run Type: %@", typeLabel] forState:UIControlStateNormal];
     [runTypeField setText:[NSString stringWithFormat:@"%@", typeLabel]];
 }
 

@@ -8,6 +8,7 @@
 
 #import "ShadowRunStore.h"
 #import "ShadowRun.h"
+#import "NSMutableArray+MoveArray.h"
 
 @implementation ShadowRunStore
 
@@ -113,9 +114,7 @@
 - (NSString *)runArchivePath
 {
     NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
     NSString *documentDirectory = [documentDirectories objectAtIndex:0];
-    
     return [documentDirectory stringByAppendingPathComponent:@"runs.data"];
 }
 
@@ -131,17 +130,14 @@
 
 - (void)loadAllRuns
 {
-    if (!allRuns) {
+    //if (!allRuns) {
         NSFetchRequest *request = [[NSFetchRequest alloc] init];
         
         NSEntityDescription *e = [[model entitiesByName] objectForKey:@"ShadowRun"];
         [request setEntity:e];
-        
         NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"dateCreated" ascending:NO];
         NSSortDescriptor *sd2 = [NSSortDescriptor sortDescriptorWithKey:@"runTitle" ascending:YES];
         [request setSortDescriptors:[NSArray arrayWithObjects:sd, sd2, nil]];
-        //NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"orderingValue" ascending:YES];
-        //[request setSortDescriptors:[NSArray arrayWithObject:sd]];
         
         NSError *error;
         NSArray *result = [context executeFetchRequest:request error:&error];
@@ -150,7 +146,7 @@
         }
         
         allRuns = [[NSMutableArray alloc] initWithArray:result];
-    }
+    //}
 }
 
 - (NSArray *)allRunTypes
@@ -167,32 +163,56 @@
         if (!request) {
             [NSException raise:@"Fetch failed" format:@"Reason: %@", [error localizedDescription]];
         }
+        
         allRunTypes = [result mutableCopy];
+        
+        NSMutableArray *allRunTypesMutable = [[NSMutableArray alloc] initWithArray:allRunTypes];
+        
+        int index = 0;
+        
+        for (NSManagedObject *obj in allRunTypes) {
+            if ([[obj valueForKey:@"label"] isEqualToString:@"No Run Type"]) {
+                [allRunTypesMutable moveObjectFromIndex:index toIndex:0];
+            } else {
+                index++;
+            }
+        }
+        
+        allRunTypes = allRunTypesMutable;
     }
     
     if ([allRunTypes count] == 0) {
         NSManagedObject *type;
         
-        /*type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
-        [type setValue:@"Speed Run" forKey:@"label"];
-        [allRunTypes addObject:type];*/
-        
         type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
-        [type setValue:@"Tempo Run" forKey:@"label"];
+        [type setValue:NSLocalizedString(@"Tempo Run", @"Tempo Run") forKey:@"label"];
         [allRunTypes addObject:type];
         
         type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
-        [type setValue:@"Distance Run" forKey:@"label"];
+        [type setValue:NSLocalizedString(@"Distance Run", @"Distance Run") forKey:@"label"];
         [allRunTypes addObject:type];
         
         type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
-        [type setValue:@"Strength Run (Hills)" forKey:@"label"];
+        [type setValue:NSLocalizedString(@"Strength Run", @"Strength Run") forKey:@"label"];
         [allRunTypes addObject:type];
         
         type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
-        [type setValue:@"Easy Run" forKey:@"label"];
+        [type setValue:NSLocalizedString(@"Easy Run", @"Easy Run") forKey:@"label"];
         [allRunTypes addObject:type];
+        
+        type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
+        [type setValue:NSLocalizedString(@"No Run Type", @"No Run Type") forKey:@"label"];
+        [allRunTypes insertObject:type atIndex:0];
     }
+    
+    if ([allRunTypes count] == 4) {
+        NSManagedObject *type;
+        
+        type = [NSEntityDescription insertNewObjectForEntityForName:@"RunType" inManagedObjectContext:context];
+        [type setValue:NSLocalizedString(@"No Run Type", @"No Run Type") forKey:@"label"];
+        [allRunTypes insertObject:type atIndex:0];
+    }
+    
     return allRunTypes;
 }
 

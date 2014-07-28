@@ -15,6 +15,7 @@
 #import "CreditsHelpViewController.h"
 #import "AlarmViewController.h"
 #import "SettingsViewController.h"
+#import "HeightAndWeightViewController.h"
 
 @implementation ShadowRunAppDelegate
 
@@ -23,9 +24,17 @@
     NSLog(@"ShadowRunDelegate - Application Started...");
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     shadowRunViewController = [[ShadowRunViewController alloc] init];
+     navController = [[UINavigationController alloc] initWithRootViewController:shadowRunViewController];
+    
     StopwatchViewController *stopwatchViewController = [[StopwatchViewController alloc] initFromInfo:NO];
+    UINavigationController *stopwatchNavController = [[UINavigationController alloc] initWithRootViewController:stopwatchViewController];
+    
     MusicViewController *musicViewController = [[MusicViewController alloc] init];
+    UINavigationController *musicNavController = [[UINavigationController alloc] initWithRootViewController:musicViewController];
+    
     CreditsHelpViewController *creditsHelpViewController = [[CreditsHelpViewController alloc] init];
+    UINavigationController *creditsNavController = [[UINavigationController alloc] initWithRootViewController:creditsHelpViewController];
+    
     AlarmViewController *alarmViewController = [[AlarmViewController alloc] init];
     
     NSLog(@"ShadowRunDelegate - Loading User Preferences...");
@@ -33,9 +42,19 @@
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
     
-    NSLog(@"ShadowRunDelegate - Loading UINavigationController...");
+    NSString *keyboardAppearance = [prefs stringForKey:@"keyboardAppearance"];
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:shadowRunViewController];
+    if (!keyboardAppearance) {
+        NSLog(@"ShadowRunDelegate - Keyboard Appearance not set...Setting to DEFAULT (Dark)");
+        [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
+    }
+    
+    /*if (![keyboardAppearance isEqualToString:@"light"] || ![keyboardAppearance isEqualToString:@"dark"]) {
+        NSLog(@"ShadowRunDelegate - Keyboard Appearance not set....Setting to DEFAULT (Dark)");
+        [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
+    }*/
+    
+    NSLog(@"ShadowRunDelegate - Loading UINavigationController...");
     
     NSLog(@"ShadowRunDelegate - Loading UITabBarItems...");
     
@@ -44,13 +63,15 @@
     [tbi setTitle:@"ShadowRun"];
     [tbi setImage:[UIImage imageNamed:@"ShadowRuns.png"]];
     
-    tabBarController = [[UITabBarController alloc] init];
+    tabBarControllerView = [[UITabBarController alloc] init];
+    tabBarControllerView.tabBar.translucent = YES;
+    tabBarControllerView.tabBar.alpha = 0.94;
     
     NSMutableArray *viewControllers = [NSMutableArray arrayWithObjects:navController, nil];
-    [viewControllers addObject:stopwatchViewController];
-    [viewControllers addObject:musicViewController];
+    [viewControllers addObject:stopwatchNavController];
+    [viewControllers addObject:musicNavController];
     [viewControllers addObject:alarmViewController];
-    [viewControllers addObject:creditsHelpViewController];
+    [viewControllers addObject:creditsNavController];
     
     NSLog(@"ShadowRunDelegate - Applying User Preferences...");
     
@@ -60,18 +81,25 @@
         NSLog(@"ShadowRunDelegate - miles_kilometer: NO");
     }
     
-    [tabBarController setViewControllers:viewControllers];
+    [tabBarControllerView setViewControllers:viewControllers];
+    
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    
+    if (backgroundSelected == nil) {
+        [prefs setObject:@"Default" forKey:@"backgroundSelected"];
+    }
     
     NSLog(@"ShadowRunDelegate - Settings Root View Controller...");
     
-    [[self window] setRootViewController:tabBarController];
+    [[self window] setRootViewController:tabBarControllerView];
     
-    tabBarController.moreNavigationController.navigationItem.rightBarButtonItem.enabled = false;
+    tabBarControllerView.moreNavigationController.navigationItem.rightBarButtonItem.enabled = false;
     
     NSLog(@"ShadowRunDelegate - Finishing Up...");
-    
+        
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
     return YES;
     
     NSLog(@"ShadowRunDelegate - Success! Application fully loaded.");

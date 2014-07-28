@@ -10,6 +10,8 @@
 #import "ShadowRun.h"
 #import "ShadowRunStore.h"
 #import "DetailViewController.h"
+#import "HeightAndWeightViewController.h"
+#import "ShadowRunAppDelegate.h"
 
 @implementation ShadowRunViewController
 
@@ -19,7 +21,7 @@
     if (self) {
         UINavigationItem *n = [self navigationItem];
         
-        [n setTitle:@"ShadowRun Track"];
+        [n setTitle:NSLocalizedString(@"ShadowRun Track", @"ShadowRun Track")];
         
         UIBarButtonItem *bbi = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNewRun:)];
         
@@ -28,6 +30,7 @@
         
         [[self view] setFrame:CGRectMake(0, 0, 320, 400)];
     }
+    
     return self;
 }
 
@@ -42,24 +45,15 @@
 {
     [super viewDidLoad];
     
+    prefs = [NSUserDefaults standardUserDefaults];
+    
     // Register TableView Cell NIB
     UINib *nib = [UINib nibWithNibName:@"ShadowRunItemCell" bundle:nil];
     [[self tableView] registerNib:nib forCellReuseIdentifier:@"ShadowRunItemCell"];
     
-    [[self view] setAlpha:0.85];
-    
-    // Set backgrounds for both 3.5" and 4.0" screens
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-    [imageView setFrame:self.tableView.frame];
-    
-    UIImageView *imageView5 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Lopez-4~5.png"]];
-    [imageView5 setFrame:self.tableView.frame];
-    
-    if ([[UIScreen mainScreen] bounds].size.height == 568) {
-        self.tableView.backgroundView = imageView5;
-    } else {
-        self.tableView.backgroundView = imageView;
-    }
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:refreshControl];
     
     // Reload the tableView
     [[self tableView] reloadData];
@@ -69,6 +63,57 @@
 {
     [super viewWillAppear:animated];
     NSLog(@"ShadowRunViewController - ViewWillAppear");
+    
+    UIImageView *imageView;
+    
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    NSLog(@"Background Selected: %@", backgroundSelected);
+    
+    ShadowRunAppDelegate *appDelegate = (ShadowRunAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if (IS_IPHONE_5) {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch.png", backgroundSelected]]];
+        [imageView setFrame:self.view.frame];
+    } else {
+        imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch.png", backgroundSelected]]];
+    }
+    
+    [imageView setFrame:self.view.frame];
+    self.tableView.backgroundView = imageView;
+    
+    // - This is info for the theme options (migrated from Keyboard Appearance) that will
+    // - Be release in Release 2.1.0
+    /*NSString *theme = [prefs stringForKey:@"keyboardAppearance"];
+    
+    if ([theme isEqualToString:@"light"]) {
+        self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+        self.tabBarController.tabBar.barTintColor = [UIColor whiteColor];
+        self.tabBarController.tabBar.translucent = YES;
+        self.tabBarController.tabBar.alpha = 1;
+    } else {
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        self.tabBarController.tabBar.barTintColor = [UIColor blackColor];
+        self.tabBarController.tabBar.translucent = YES;
+        self.tabBarController.tabBar.alpha = 1;
+    }*/
+    
+    [[appDelegate window] setNeedsDisplay];
+    
+    [[self tableView] reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
+
+#pragma mark - UIRefreshControl Function
+
+- (void)refresh:(id)sender
+{
+    [[ShadowRunStore sharedStore] loadAllRuns];
+    [self.tableView reloadData];
+    [refreshControl endRefreshing];
 }
 
 #pragma mark - TableView Functions
@@ -89,14 +134,14 @@
     [cell setTableView:tableView];
     
     [[cell runTitle] setText:[p runTitle]];
-    [[cell mphTitle] setText:[NSString stringWithFormat:@"%.2f Pace", [p avgMph]]];
+    [[cell mphTitle] setText:[NSString stringWithFormat:NSLocalizedString(@"%.2f Pace", @"%.2f Pace"), [p avgMph]]];
     
-    if ([[[cell mphTitle] text] isEqualToString:@"0.00"] || [[[cell mphTitle] text] isEqualToString:@"nan"] || [[[cell mphTitle] text] isEqualToString:@"inf"]) {
-        [[cell mphTitle] setText:@"0.00"];
+    if ([[[cell mphTitle] text] isEqualToString:@"0.00"] || [[[cell mphTitle] text] isEqualToString:@"nan"] || [[[cell mphTitle] text] isEqualToString:@"inf"] || [[[cell mphTitle] text] isEqualToString:@"inf Pace"] || [[[cell mphTitle] text] isEqualToString:@"nan Pace"] || [[[cell mphTitle] text] isEqualToString:@"0.00 Pace"]) {
+        [[cell mphTitle] setText:@"0.00 Pace"];
     }
     
     if ([[[cell runTitle] text] isEqualToString:@""]) {
-        [[cell runTitle] setText:[NSString stringWithFormat:@"Unamed Run"]];
+        [[cell runTitle] setText:[NSString stringWithFormat:NSLocalizedString(@"Unamed Run", @"Unamed Run")]];
         [[cell runTitle] setTextColor:[UIColor lightGrayColor]];
     } else {
         [[cell runTitle] setTextColor:[UIColor blackColor]];
@@ -112,7 +157,7 @@
     
     NSString *typeTitle = [[p type] valueForKey:@"label"];
     if (!typeTitle) {
-        typeTitle = @"No Run Type";
+        typeTitle = NSLocalizedString(@"No Run Type", @"No Run Type");
     }
     [[cell runTypeTitle] setText:[NSString stringWithFormat:@"%@", typeTitle]];
     

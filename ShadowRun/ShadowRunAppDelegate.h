@@ -12,7 +12,8 @@
 @interface ShadowRunAppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate>
 {
     ShadowRunViewController *shadowRunViewController;
-    UITabBarController *tabBarController;
+    UITabBarController *tabBarControllerView;
+    UINavigationController *navController;
 }
 
 @property (strong, nonatomic) UIWindow *window;

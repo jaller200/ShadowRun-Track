@@ -8,9 +8,12 @@
 
 #import "CreditsHelpViewController.h"
 #import "SettingsViewController.h"
+#import "UIImage+ImageEffects.h"
 
 @implementation CreditsHelpViewController
 @synthesize adView;
+@synthesize defaultToolbar;
+@synthesize backgroundView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,26 +28,47 @@
         
         [tbi setTitle:@"Credits"];
         [tbi setImage:[UIImage imageNamed:@"Credits.png"]];
+        
+        UINavigationItem *n = [self navigationItem];
+        [n setTitle:NSLocalizedString(@"Credits", @"Credits")];
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    [self.view setNeedsDisplay];
-    UIColor *clr = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-    [[self view] setBackgroundColor:clr];
-    
+    defaultToolbar.barStyle = UIBarStyleDefault;
+    defaultToolbar.translucent = YES;
+    defaultToolbar.alpha = 0.94;
+
     [adView setDelegate:self];
     [adView setHidden:YES];
+    
+    prefs = [NSUserDefaults standardUserDefaults];
 }
 
-- (IBAction)gotoWebsite:(id)sender
+- (void)viewWillAppear:(BOOL)animated
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Under Construction" message:@"Our website is not yet up and running. Please check back later." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    alertView.tag = 5000;
-    [alertView show];
-    //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.shadowsystemsco.com/"]];
+    [super viewWillAppear:animated];
+    
+    [self.view setNeedsDisplay];
+    
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    NSLog(@"CreditsHelpViewController - backgroundSelected: %@", backgroundSelected);
+    
+    if (IS_IPHONE_5) {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch.png", backgroundSelected]]];
+    } else {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch.png", backgroundSelected]]];
+    }
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(20, 193, 280, 133)];
+    [view setBackgroundColor:[UIColor lightGrayColor]];
+    [view setAlpha:0.65];
+    [view.layer setBorderColor:[UIColor darkGrayColor].CGColor];
+    [view.layer setBorderWidth:0.5];
+    
+    [self.view insertSubview:view belowSubview:verseView];
 }
 
 - (IBAction)openSettings:(id)sender
@@ -54,16 +78,6 @@
     SettingsViewController  *settings = [[SettingsViewController alloc] init];
         
     [self presentViewController:settings animated:YES completion:nil];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 5000) {
-        if (buttonIndex == 0) {
-            NSLog(@"CreditsViewController - Website");
-            return;
-        }
-    }
 }
 
 #pragma mark - iAd Methods

@@ -13,11 +13,19 @@
 @interface NotesViewController : UIViewController <UITextViewDelegate>
 {
     __weak IBOutlet UITextView *textViewView;
+    
+    IBOutlet UIImageView *backgroundView;
+    
     UIToolbar *toolbar;
+    NSUserDefaults *prefs;
+    
+    BOOL close;
 }
 
 @property (nonatomic, strong) ShadowRun *run;
 @property (nonatomic, copy) void (^dismissBlock)(void);
+
+@property (nonatomic) UIBarButtonItem *closeItem;
 
 - (id)initWithRun:(ShadowRun *)newRun;
 

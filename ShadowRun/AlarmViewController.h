@@ -12,6 +12,15 @@
 {
     IBOutlet UIDatePicker *datePicker;
     BOOL alarmSet;
+    
+    __weak IBOutlet UIBarButtonItem *setAlarmButton;
+    __weak IBOutlet UIBarButtonItem *cancelAlarmButton;
+    
+    IBOutlet UIToolbar *defaultToolbar;
+    IBOutlet UIImageView *backgroundView;
+    
+    NSString *currentLanguage;
+    NSUserDefaults *prefs;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *alarmSetToLabel;
@@ -21,6 +30,5 @@
 
 - (IBAction)set:(id)sender;
 - (IBAction)cancel:(id)sender;
-- (IBAction)setAlarmLength:(id)sender;
 
 @end

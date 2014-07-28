@@ -18,6 +18,7 @@
 @synthesize totalTime;
 @synthesize runTimeString;
 @synthesize runTime;
+@synthesize backgroundView;
 
 #pragma mark - INIT Methods
 
@@ -31,11 +32,11 @@
     
     if (self) {
         if (info) {
-            UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
-            [[self navigationItem] setRightBarButtonItem:doneItem];
+            UIBarButtonItem *navDoneItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done:)];
+            [[self navigationItem] setRightBarButtonItem:navDoneItem];
             
-            UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
-            [[self navigationItem] setLeftBarButtonItem:cancelItem];
+            UIBarButtonItem *navCancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancel:)];
+            [[self navigationItem] setLeftBarButtonItem:navCancelItem];
         } else {
             UITabBarItem *tbi = [self tabBarItem];
             
@@ -54,6 +55,9 @@
         
         watchStart = NO;
         pauseTimeInterval = 0.0;
+        
+        UINavigationItem *n = [self navigationItem];
+        [n setTitle:@"Stopwatch"];
     }
     return self;
 }
@@ -75,17 +79,28 @@
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0];
     
-    [[self view] setFrame:CGRectMake(0, -100, 320, 367)];
-    
-    UIColor *clr = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Lopez-4.jpg"]];
-    [[self view] setAlpha:0.85];
-    [[self view] setBackgroundColor:clr];
-    
-    [[self stopButton] setEnabled:NO];
-    [[self stopButtonItem] setEnabled:NO];
+    defaultToolbar.barStyle = UIBarStyleDefault;
+    defaultToolbar.translucent = YES;
+    defaultToolbar.alpha = 0.94;
     
     [[self stopwatchLabel] setText:[NSString stringWithFormat:@"00:00:00.000"]];
     pauseTimeInterval = 0.0;
+    
+    [UIView commitAnimations];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+        
+    prefs = [NSUserDefaults standardUserDefaults];
+    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    
+    if (IS_IPHONE_5) {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-4-Inch.png", backgroundSelected]]];
+    } else {
+        [backgroundView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-3-5-Inch.png", backgroundSelected]]];
+    }
 }
 
 #pragma mark - Stopwatch Methods
@@ -100,10 +115,6 @@
     
     [[self stopwatchLabel] setText:@"00:00:00.000"];
     
-    [[self startButton] setEnabled:YES];
-    [[self stopButton] setEnabled:NO];
-    [[self startButtonItem] setEnabled:YES];
-    [[self stopButtonItem] setEnabled:NO];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm:ss.SSS"];
@@ -120,7 +131,7 @@
 #pragma mark - CreateRun Methods
 
 // Not in use yet, I will use in later version to create a run from the stopwatch time.
-- (IBAction)createRun:(id)sender
+/* - (IBAction)createRun:(id)sender
 {
     NSLog(@"StopwatchViewController - Create Run");
     NSLog(@"StopwatchViewController - This button does absolutely nothing right now.");
@@ -143,7 +154,7 @@
     [self presentViewController:navController animated:YES completion:nil];
     
     NSLog(@"This is so far working...");
-}
+}*/
 
 #pragma mark - Custom Methods
 

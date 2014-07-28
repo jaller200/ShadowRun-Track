@@ -14,6 +14,9 @@
 @interface ShadowRunViewController : UITableViewController <UIAlertViewDelegate, UINavigationBarDelegate>
 {
     ShadowRun *run;
+    NSUserDefaults *prefs;
+    
+    UIRefreshControl *refreshControl;
 }
 
 - (IBAction)addNewRun:(id)sender;

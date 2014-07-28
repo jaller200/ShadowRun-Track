@@ -55,12 +55,14 @@
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
+      "filename" : "ShadowRunLaunchImage-1.png",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
+      "filename" : "ShadowRunLauchImage-1.png",
       "subtype" : "retina4",
       "scale" : "2x"
     },
