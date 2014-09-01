@@ -571,76 +571,12 @@
 {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     
-    if (alertView.tag == 3001) {
-        if ([title isEqualToString:NSLocalizedString(@"Yes", "Yes")]) {
-            [self afterConvert:self];
-        } else {
-            return;
-        }
-    }
-    
     if (alertView.tag == 3002) {
         if ([title isEqualToString:NSLocalizedString(@"Yes", "Yes")]) {
             [[self presentingViewController] dismissViewControllerAnimated:YES completion:dismissBlock];
         } else {
             return;
         }
-    }
-}
-
-#pragma mark - Custom Methods
-
-- (IBAction)convert:(id)sender
-{
-    BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
-    
-    if (milesOrKilometers) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Convert", @"Convert")
-                                                        message:NSLocalizedString(@"Convert the current distance to Miles (rounded)?", @"Convert the current distance to Miles (rounded)?")
-                                                       delegate:self
-                                              cancelButtonTitle:NSLocalizedString(@"No", @"No")
-                                              otherButtonTitles:NSLocalizedString(@"Yes", @"Yes"), nil];
-        alertView.tag = 3001;
-        [alertView show];
-    } else {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Convert", @"Convert")
-                                                            message:NSLocalizedString(@"Convert the current distance to Kilometers (rounded)?", @"Convert the current distance to Kilometers (rounded)?")
-                                                           delegate:self
-                                                  cancelButtonTitle:NSLocalizedString(@"No", @"No")
-                                                  otherButtonTitles:NSLocalizedString(@"Yes", @"Yes"), nil];
-        alertView.tag = 3001;
-        [alertView show];
-    }
-}
-
-- (IBAction)afterConvert:(id)sender
-{
-    BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
-    
-    if (milesOrKilometers) {
-        NSLog(@"DetailViewController - Converting to Miles");
-        
-        float kilometers = [[distanceField text]  floatValue];
-        
-        float miles = kilometers * 0.621371;
-        
-        NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
-        [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
-        [numFormat setMaximumFractionDigits:2];
-        
-        [distanceField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:miles]]]];
-    } else {
-        NSLog(@"DetailViewController - Converting to Kilometers");
-        
-        float miles = [[distanceField text] floatValue];
-        
-        float kilometers = miles * 1.60934;
-        
-        NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
-        [numFormat setNumberStyle:NSNumberFormatterDecimalStyle];
-        [numFormat setMaximumFractionDigits:2];
-        
-        [distanceField setText:[NSString stringWithFormat:@"%@", [numFormat stringFromNumber:[NSNumber numberWithFloat:kilometers]]]];
     }
 }
 

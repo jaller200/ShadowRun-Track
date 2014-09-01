@@ -51,7 +51,7 @@
     [[self tableView] setBackgroundView:imageView];
     
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    UIBarButtonItem *resetButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStyleBordered target:self action:@selector(reset:)];
+    UIBarButtonItem *resetButton = [[UIBarButtonItem alloc] initWithTitle:@"Reset" style:UIBarButtonItemStylePlain target:self action:@selector(reset:)];
     
     NSArray *toolbarItemsArray = [[NSArray alloc] initWithObjects:flexSpace, resetButton, flexSpace, nil];
     self.toolbarItems = toolbarItemsArray;

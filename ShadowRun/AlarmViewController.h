@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AlarmViewController : UIViewController
+@interface AlarmViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
     IBOutlet UIDatePicker *datePicker;
     BOOL alarmSet;
@@ -20,15 +20,23 @@
     IBOutlet UIImageView *backgroundView;
     
     NSString *currentLanguage;
-    NSUserDefaults *prefs;
+    NSUserDefaults *_prefs;
+    NSUInteger _repeatUnit;
+    
+    UIPickerView *_pickerView;
+    UIToolbar *_toolbar;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *alarmSetToLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *setItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *cancelItem;
+@property (weak, nonatomic) IBOutlet UIButton *repeatButton;
 
 - (void)scheduleLocalNotificationWithDate:(NSDate *)date;
 - (void)showMessage:(NSString *)message;
 
 - (IBAction)set:(id)sender;
 - (IBAction)cancel:(id)sender;
+- (IBAction)repeat:(id)sender;
 
 @end

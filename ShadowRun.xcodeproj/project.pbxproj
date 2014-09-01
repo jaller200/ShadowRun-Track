@@ -13,6 +13,10 @@
 		610B12091981DF31003677CC /* Lopez Lomong-4-Inch-Blurred.png in Resources */ = {isa = PBXBuildFile; fileRef = 610B12031981DF31003677CC /* Lopez Lomong-4-Inch-Blurred.png */; };
 		610B120A1981DF31003677CC /* Track and Field-3-5-Inch-Blurred.png in Resources */ = {isa = PBXBuildFile; fileRef = 610B12041981DF31003677CC /* Track and Field-3-5-Inch-Blurred.png */; };
 		610B120B1981DF31003677CC /* Track and Field-4-Inch-Blurred.png in Resources */ = {isa = PBXBuildFile; fileRef = 610B12051981DF31003677CC /* Track and Field-4-Inch-Blurred.png */; };
+		6190DF2819AA8AB00036C67D /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6190DF2719AA8AB00036C67D /* Accelerate.framework */; };
+		6190DF2B19AA90DC0036C67D /* Laps.m in Sources */ = {isa = PBXBuildFile; fileRef = 6190DF2A19AA90DC0036C67D /* Laps.m */; };
+		6190DF2F19AA93120036C67D /* LapTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6190DF2D19AA93120036C67D /* LapTableViewCell.m */; };
+		6190DF3019AA93120036C67D /* LapTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6190DF2E19AA93120036C67D /* LapTableViewCell.xib */; };
 		61984D8D197CA8B400DCF5D4 /* NSMutableArray+MoveArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 61984D8C197CA8B400DCF5D4 /* NSMutableArray+MoveArray.m */; };
 		AB03547D18CA4E1200E13B2B /* AlarmViewController~4.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB03545318CA4E1200E13B2B /* AlarmViewController~4.xib */; };
 		AB03547E18CA4E1200E13B2B /* AlarmViewController~5.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB03545518CA4E1200E13B2B /* AlarmViewController~5.xib */; };
@@ -131,8 +135,16 @@
 		610B12031981DF31003677CC /* Lopez Lomong-4-Inch-Blurred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lopez Lomong-4-Inch-Blurred.png"; sourceTree = "<group>"; };
 		610B12041981DF31003677CC /* Track and Field-3-5-Inch-Blurred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Track and Field-3-5-Inch-Blurred.png"; sourceTree = "<group>"; };
 		610B12051981DF31003677CC /* Track and Field-4-Inch-Blurred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Track and Field-4-Inch-Blurred.png"; sourceTree = "<group>"; };
+		610D7FB119A15D940058998F /* ShadowRun-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShadowRun-Bridging-Header.h"; sourceTree = "<group>"; };
+		6190DF2719AA8AB00036C67D /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		6190DF2919AA90DC0036C67D /* Laps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Laps.h; sourceTree = "<group>"; };
+		6190DF2A19AA90DC0036C67D /* Laps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Laps.m; sourceTree = "<group>"; };
+		6190DF2C19AA93120036C67D /* LapTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LapTableViewCell.h; sourceTree = "<group>"; };
+		6190DF2D19AA93120036C67D /* LapTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LapTableViewCell.m; sourceTree = "<group>"; };
+		6190DF2E19AA93120036C67D /* LapTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LapTableViewCell.xib; sourceTree = "<group>"; };
 		61984D8B197CA8B400DCF5D4 /* NSMutableArray+MoveArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+MoveArray.h"; sourceTree = "<group>"; };
 		61984D8C197CA8B400DCF5D4 /* NSMutableArray+MoveArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+MoveArray.m"; sourceTree = "<group>"; };
+		619DAFEF1987067500AFB122 /* ShadowRun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ShadowRun.entitlements; sourceTree = "<group>"; };
 		AB03545418CA4E1200E13B2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "AlarmViewController~4.xib"; sourceTree = "<group>"; };
 		AB03545618CA4E1200E13B2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "AlarmViewController~5.xib"; sourceTree = "<group>"; };
 		AB03545818CA4E1200E13B2B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = "CreditsHelpViewController~4.xib"; sourceTree = "<group>"; };
@@ -259,6 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6190DF2819AA8AB00036C67D /* Accelerate.framework in Frameworks */,
 				AB5C4F7D19072DAC00FFC989 /* CoreImage.framework in Frameworks */,
 				AB5C4F7B19072DA700FFC989 /* QuartzCore.framework in Frameworks */,
 				ABE00E1B187384CC00663E54 /* iAd.framework in Frameworks */,
@@ -344,6 +357,7 @@
 		AB4B4FE217EE41C80046E546 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6190DF2719AA8AB00036C67D /* Accelerate.framework */,
 				AB5C4F7C19072DAC00FFC989 /* CoreImage.framework */,
 				AB5C4F7A19072DA700FFC989 /* QuartzCore.framework */,
 				ABE00E1A187384CB00663E54 /* iAd.framework */,
@@ -360,12 +374,14 @@
 		AB4B4FE917EE41C80046E546 /* ShadowRun */ = {
 			isa = PBXGroup;
 			children = (
+				619DAFEF1987067500AFB122 /* ShadowRun.entitlements */,
 				AB4B4FF217EE41C80046E546 /* ShadowRunAppDelegate.h */,
 				AB4B4FF317EE41C80046E546 /* ShadowRunAppDelegate.m */,
 				AB4B502617EE44FB0046E546 /* ShadowRun.xcdatamodeld */,
 				AB4B4FF517EE41C80046E546 /* Images.xcassets */,
 				AB4B501217EE446A0046E546 /* ShadowRun */,
 				AB4B4FEA17EE41C80046E546 /* Supporting Files */,
+				610D7FB119A15D940058998F /* ShadowRun-Bridging-Header.h */,
 			);
 			path = ShadowRun;
 			sourceTree = "<group>";
@@ -429,6 +445,8 @@
 		AB4B501417EE44750046E546 /* ShadowRun Store */ = {
 			isa = PBXGroup;
 			children = (
+				6190DF2919AA90DC0036C67D /* Laps.h */,
+				6190DF2A19AA90DC0036C67D /* Laps.m */,
 				AB4B502917EE457D0046E546 /* ShadowRun.h */,
 				AB4B502A17EE457D0046E546 /* ShadowRun.m */,
 				AB4B501717EE44820046E546 /* ShadowRunStore.h */,
@@ -536,6 +554,9 @@
 		AB8F12E518AEAD4800A51AAF /* ShadowWatch VC */ = {
 			isa = PBXGroup;
 			children = (
+				6190DF2C19AA93120036C67D /* LapTableViewCell.h */,
+				6190DF2D19AA93120036C67D /* LapTableViewCell.m */,
+				6190DF2E19AA93120036C67D /* LapTableViewCell.xib */,
 				ABC489A917F25738007DD51A /* StopwatchViewController.h */,
 				ABC489AA17F25738007DD51A /* StopwatchViewController.m */,
 				ABBED8B018304ED7001FADF3 /* StopwatchViewController~4.xib */,
@@ -681,6 +702,11 @@
 				TargetAttributes = {
 					AB4B4FDF17EE41C80046E546 = {
 						DevelopmentTeam = P5B237A769;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					AB4B4FFA17EE41C90046E546 = {
 						TestTargetID = AB4B4FDF17EE41C80046E546;
@@ -764,6 +790,7 @@
 				ABC489D117F2646A007DD51A /* mic_24.png in Resources */,
 				AB03548A18CA4E1200E13B2B /* NotesViewController~5.xib in Resources */,
 				AB4B503517EE78010046E546 /* Run.png in Resources */,
+				6190DF3019AA93120036C67D /* LapTableViewCell.xib in Resources */,
 				AB03548718CA4E1200E13B2B /* MusicViewController~4.xib in Resources */,
 				AB4B4FF617EE41C80046E546 /* Images.xcassets in Resources */,
 				ABBED8AE18304ED7001FADF3 /* StopwatchViewController~4.xib in Resources */,
@@ -808,7 +835,9 @@
 				ABC489AC17F25738007DD51A /* StopwatchViewController.m in Sources */,
 				AB46D76E192952E40042531E /* BackgroundPicker.m in Sources */,
 				AB4B4FF417EE41C80046E546 /* ShadowRunAppDelegate.m in Sources */,
+				6190DF2F19AA93120036C67D /* LapTableViewCell.m in Sources */,
 				AB9CDBD21849438400EC7E8B /* SettingsViewController.m in Sources */,
+				6190DF2B19AA90DC0036C67D /* Laps.m in Sources */,
 				AB4B4FF017EE41C80046E546 /* main.m in Sources */,
 				ABA6661017EE7CB70002081D /* DetailViewController.m in Sources */,
 				AB9CDBBC1849160900EC7E8B /* AlarmViewController.m in Sources */,
@@ -1100,17 +1129,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ShadowRun/ShadowRun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Edward Hart (2699J5KRKE)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShadowRun/ShadowRun-Prefix.pch";
 				INFOPLIST_FILE = "ShadowRun/ShadowRun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ShadowRun/ShadowRun-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1120,17 +1154,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ShadowRun/ShadowRun.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos7.0]" = "iPhone Developer: Edward Hart (2699J5KRKE)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ShadowRun/ShadowRun-Prefix.pch";
 				INFOPLIST_FILE = "ShadowRun/ShadowRun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ShadowRun/ShadowRun-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

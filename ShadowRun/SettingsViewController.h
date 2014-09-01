@@ -31,7 +31,9 @@
 
 // Properties
 @property (weak, nonatomic) IBOutlet UITextField *alarmMessageField;
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+
+@property (strong, nonatomic) NSUbiquitousKeyValueStore *keyStore;
 
 // IBActions
 - (IBAction)changeAlarmSound:(id)sender;

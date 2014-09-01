@@ -8,6 +8,7 @@
 
 #import "ShadowRunStore.h"
 #import "ShadowRun.h"
+#import "Laps.h"
 #import "NSMutableArray+MoveArray.h"
 
 @implementation ShadowRunStore
@@ -56,6 +57,7 @@
         [context setUndoManager:nil];
         
         [self loadAllRuns];
+        [self loadAllLaps];
     }
     
     return self;
@@ -214,6 +216,75 @@
     }
     
     return allRunTypes;
+}
+
+#pragma mark - Lap Functionality
+
+- (void)loadAllLaps
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+        
+    NSEntityDescription *e = [[model entitiesByName] objectForKey:@"Laps"];
+        [request setEntity:e];
+    NSSortDescriptor *sd = [NSSortDescriptor sortDescriptorWithKey:@"number" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObjects:sd, nil]];
+        
+    NSError *error;
+    NSArray *result = [context executeFetchRequest:request error:&error];
+    if (!result) {
+        [NSException raise:@"Fetch failed" format:@"Reason: %@", [error localizedDescription]];
+    }
+        
+    allLaps = [[NSMutableArray alloc] initWithArray:result];
+}
+
+- (NSArray *)allLaps
+{
+    return allLaps;
+}
+
+- (void)removeAllLaps
+{
+    NSLog(@"allLaps count = %lu", (unsigned long)[allLaps count]);
+    
+    for (NSManagedObject *object in allLaps) {
+        [context deleteObject:object];
+    }
+    
+    NSError *error;
+    [context save:&error];
+}
+
+- (Laps *)createLap:(NSString *)time
+{
+    double order;
+    if ([allLaps count] == 0) {
+        order = 1.0;
+    } else {
+        order = [[allLaps lastObject] orderValue] + 1.0;
+    }
+    
+    NSLog(@"Adding after %lu items, order %.2f", (unsigned long)[allLaps count], order);
+    
+    Laps *lap = [NSEntityDescription insertNewObjectForEntityForName:@"Laps" inManagedObjectContext:context];
+    
+    [lap setLapTime:time];
+    
+    double lapNumber = [[NSUserDefaults standardUserDefaults] doubleForKey:@"lapNumber"];
+    
+    if (lapNumber == 0) {
+        lapNumber++;
+    }
+    
+    [lap setNumber:lapNumber];
+    
+    lapNumber++;
+    
+    [[NSUserDefaults standardUserDefaults] setDouble:lapNumber forKey:@"lapNumber"];
+    
+    [allLaps addObject:lap];
+    
+    return lap;
 }
 
 @end

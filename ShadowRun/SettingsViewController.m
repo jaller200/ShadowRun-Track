@@ -17,6 +17,7 @@
 @implementation SettingsViewController
 @synthesize alarmMessageField;
 @synthesize backgroundImageView;
+@synthesize keyStore;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,7 +60,13 @@
         [[self alarmMessageField] setText:[NSString stringWithFormat:@"%@", alarmMessage]];
     }
     
-    NSString *keyboardAppearance = [prefs stringForKey:@"keyboardAppearance"];
+    keyStore = [(ShadowRunAppDelegate *)[[UIApplication sharedApplication] delegate] keyStore];
+    
+    NSString *keyboardAppearance = [keyStore stringForKey:@"keyboardAppearance"]; //[prefs stringForKey:@"keyboardAppearance"];
+    
+    if (!keyboardAppearance) {
+        keyboardAppearance = [prefs stringForKey:@"backgroundAppearance"];
+    }
     
     if ([keyboardAppearance isEqualToString:@"light"]) {
         [keyboardAppearanceButton setTitle:@"Light" forState:UIControlStateNormal];
@@ -187,6 +194,10 @@
             [prefs setObject:@"Default" forKey:@"backgroundSelected"];
             [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
             
+            [keyStore setString:nil forKey:@"alarmMessage"];
+            [keyStore setString:@"Default" forKey:@"backgroundSelected"];
+            [keyStore setString:@"dark" forKey:@"keyboardAppearance"];
+            
             [keyboardAppearanceButton setTitle:@"Dark" forState:UIControlStateNormal];
             [alarmMessageField setKeyboardAppearance:UIKeyboardAppearanceDark];
             [accessToolbar setBarStyle:UIBarStyleBlack];
@@ -246,6 +257,7 @@
     if ([keyboardAppearance isEqualToString:@"light"]) {
         originalKeyboardAppearance = @"light";
         [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
+        [keyStore setString:@"dark" forKey:@"keyboardAppearance"];
         [keyboardAppearanceButton setTitle:@"Dark" forState:UIControlStateNormal];
         [alarmMessageField setKeyboardAppearance:UIKeyboardAppearanceDark];
         [accessToolbar setBarStyle:UIBarStyleBlackTranslucent];
@@ -256,6 +268,7 @@
     } else {
         originalKeyboardAppearance = @"dark";
         [prefs setObject:@"light" forKey:@"keyboardAppearance"];
+        [keyStore setString:@"light" forKey:@"keyboardAppearance"];
         [keyboardAppearanceButton setTitle:@"Light" forState:UIControlStateNormal];
         [alarmMessageField setKeyboardAppearance:UIKeyboardAppearanceLight];
         [accessToolbar setBarStyle:UIBarStyleDefault];

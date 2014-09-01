@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13B42" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6208.6" systemVersion="14A314h" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Laps" representedClassName="Laps" syncable="YES">
+        <attribute name="lapTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="number" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="orderValue" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+    </entity>
     <entity name="RunType" syncable="YES">
         <attribute name="label" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nameLabel" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,7 +26,8 @@
         <relationship name="type" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RunType" inverseName="run" inverseEntity="RunType" syncable="YES"/>
     </entity>
     <elements>
-        <element name="RunType" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="ShadowRun" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Laps" positionX="9" positionY="108" width="128" height="90"/>
+        <element name="RunType" positionX="0" positionY="0" width="128" height="90"/>
+        <element name="ShadowRun" positionX="0" positionY="0" width="128" height="240"/>
     </elements>
 </model>

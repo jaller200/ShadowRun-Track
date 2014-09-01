@@ -18,6 +18,7 @@
 #import "HeightAndWeightViewController.h"
 
 @implementation ShadowRunAppDelegate
+@synthesize keyStore;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -37,16 +38,26 @@
     
     AlarmViewController *alarmViewController = [[AlarmViewController alloc] init];
     
+    // iCloud Key-Value Storage
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ubiquitousKeyValueStoreDidChange:) name:NSUbiquitousKeyValueStoreDidChangeExternallyNotification object:keyStore];
+    
+    [[NSUbiquitousKeyValueStore defaultStore] synchronize];
+    
+    // User Preferences
+    
     NSLog(@"ShadowRunDelegate - Loading User Preferences...");
     
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    BOOL milesOrKilometers = [prefs boolForKey:@"miles_kilometers"];
-    
-    NSString *keyboardAppearance = [prefs stringForKey:@"keyboardAppearance"];
+
+    NSString *keyboardAppearance = [keyStore stringForKey:@"keyboardAppearance"]; //[prefs stringForKey:@"keyboardAppearance"];
     
     if (!keyboardAppearance) {
-        NSLog(@"ShadowRunDelegate - Keyboard Appearance not set...Setting to DEFAULT (Dark)");
-        [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
+        keyboardAppearance = [prefs stringForKey:@"keyboardAppearance"];
+        
+        if (!keyboardAppearance) {
+            NSLog(@"ShadowRunDelegate - Keyboard Appearance not set...Setting to DEFAULT (Dark)");
+            [prefs setObject:@"dark" forKey:@"keyboardAppearance"];
+        }
     }
     
     /*if (![keyboardAppearance isEqualToString:@"light"] || ![keyboardAppearance isEqualToString:@"dark"]) {
@@ -75,18 +86,16 @@
     
     NSLog(@"ShadowRunDelegate - Applying User Preferences...");
     
-    if (milesOrKilometers == YES) {
-        NSLog(@"ShadowRunDelegate - miles_kilometers: YES");
-    } else {
-        NSLog(@"ShadowRunDelegate - miles_kilometer: NO");
-    }
-    
     [tabBarControllerView setViewControllers:viewControllers];
     
-    NSString *backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+    NSString *backgroundSelected = [keyStore stringForKey:@"backgroundSelected"]; //[prefs stringForKey:@"backgroundSelected"];
     
-    if (backgroundSelected == nil) {
-        [prefs setObject:@"Default" forKey:@"backgroundSelected"];
+    if (!backgroundSelected) {
+        backgroundSelected = [prefs stringForKey:@"backgroundSelected"];
+        
+        if (!backgroundSelected) {
+            [prefs setObject:@"Default" forKey:@"backgroundSelected"];
+        }
     }
     
     NSLog(@"ShadowRunDelegate - Settings Root View Controller...");
@@ -96,6 +105,8 @@
     tabBarControllerView.moreNavigationController.navigationItem.rightBarButtonItem.enabled = false;
     
     NSLog(@"ShadowRunDelegate - Finishing Up...");
+    
+    NSLog(@"All laps count = %f", [[NSUserDefaults standardUserDefaults] doubleForKey:@"lapNumber"]);
         
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -103,6 +114,11 @@
     return YES;
     
     NSLog(@"ShadowRunDelegate - Success! Application fully loaded.");
+}
+
+- (void)ubiquitousKeyValueStoreDidChange:(NSNotification *)notification
+{
+    NSLog(@"Store changed");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -151,6 +167,8 @@
     } else {
         NSLog(@"ShadowRunDelegate - Could not save runs.");
     }
+    
+    NSLog(@"All laps count = %f", [[NSUserDefaults standardUserDefaults] doubleForKey:@"lapNumber"]);
 }
 
 @end

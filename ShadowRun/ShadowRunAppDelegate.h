@@ -18,4 +18,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+// iCloud Key-Value Storage
+@property (strong, nonatomic) NSUbiquitousKeyValueStore *keyStore;
+
 @end

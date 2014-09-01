@@ -10,11 +10,13 @@
 #import <CoreData/CoreData.h>
 
 @class ShadowRun;
+@class Laps;
 
 @interface ShadowRunStore : NSObject
 {
     NSMutableArray *allRuns;
     NSMutableArray *allRunTypes;
+    NSMutableArray *allLaps;
     NSManagedObjectContext *context;
     NSManagedObjectModel *model;
 }
@@ -32,5 +34,13 @@
 
 - (void)loadAllRuns;
 - (NSArray *)allRunTypes;
+
+
+// ShadowRun Track 2.1.0 - Lap Functionality
+- (void)loadAllLaps;
+- (NSArray *)allLaps;
+
+- (void)removeAllLaps;
+- (Laps *)createLap:(NSString *)time;
 
 @end

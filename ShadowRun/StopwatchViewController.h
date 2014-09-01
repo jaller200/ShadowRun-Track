@@ -10,10 +10,14 @@
 
 @class ShadowRun;
 
-@interface StopwatchViewController : UIViewController
+@interface StopwatchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     NSString *stopwatchString;
     NSTimeInterval pauseTimeInterval;
+    
+    UIToolbar *blurView;
+    UILabel *noLaps;
+    
     BOOL watchStart;
     
     __weak IBOutlet UIToolbar *defaultToolbar;
@@ -24,14 +28,20 @@
     NSMutableArray *lapTimes;
     
     NSUserDefaults *prefs;
+    
+    CAGradientLayer *maskLayer;
 }
 
 // IBOutlets
 @property (weak, nonatomic) IBOutlet UILabel *stopwatchLabel;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *resetButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *btnStartPauseItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *lapButton;
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundView;
+
+// IBOutlet - Lap TableView
+@property (strong, nonatomic) IBOutlet UITableView *lapTableView;
 
 // Timer Declerations
 @property (strong, nonatomic) NSTimer *stopWatchTimer;
@@ -50,6 +60,7 @@
 // Actions
 - (IBAction)resetStopwatch:(id)sender;
 - (IBAction)btnStartPause:(id)sender;
+- (IBAction)lap:(id)sender;
 
 // Initializers
 - (id)initFromInfo:(BOOL)info; // Not fully implemented yet, but is required to initalize

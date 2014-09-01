@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6206.8" systemVersion="14A329f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment version="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment version="1792" defaultVersion="1808" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StopwatchViewController">
@@ -10,6 +10,8 @@
                 <outlet property="backgroundView" destination="nWz-lA-fYy" id="FgD-Jn-DZi"/>
                 <outlet property="btnStartPauseItem" destination="Ad8-fB-owF" id="upB-Ij-KUJ"/>
                 <outlet property="defaultToolbar" destination="xGj-Ft-g5h" id="aki-sK-WMr"/>
+                <outlet property="lapButton" destination="tcL-Ze-J4l" id="Sx0-z9-6Za"/>
+                <outlet property="lapTableView" destination="EOt-FU-hSu" id="4Lh-oy-btT"/>
                 <outlet property="resetButtonItem" destination="fx5-Fk-oAX" id="4Eo-m8-oOO"/>
                 <outlet property="stopwatchLabel" destination="c9c-zv-fnk" id="ufF-wW-rbb"/>
                 <outlet property="stopwatchTitleLabel" destination="a3Q-OT-5wA" id="uHf-ow-ZLe"/>
@@ -31,15 +33,21 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xGj-Ft-g5h">
-                    <rect key="frame" x="0.0" y="387" width="320" height="44"/>
+                    <rect key="frame" x="0.0" y="387" width="320" height="45"/>
                     <items>
-                        <barButtonItem title="Start Timer" id="Ad8-fB-owF">
+                        <barButtonItem title="Start" id="Ad8-fB-owF">
                             <connections>
                                 <action selector="btnStartPause:" destination="-1" id="elX-S7-zpk"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="0y9-9p-igT"/>
+                        <barButtonItem title="Lap" id="tcL-Ze-J4l">
+                            <connections>
+                                <action selector="lap:" destination="-1" id="zoh-Tq-IOj"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="vaS-pB-vFz"/>
-                        <barButtonItem title="Reset Timer" id="fx5-Fk-oAX">
+                        <barButtonItem title="Reset" id="fx5-Fk-oAX">
                             <connections>
                                 <action selector="resetStopwatch:" destination="-1" id="SKs-Sk-rp8"/>
                             </connections>
@@ -57,9 +65,29 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="EOt-FU-hSu">
+                    <rect key="frame" x="0.0" y="207" width="320" height="180"/>
+                    <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="sYi-HX-dfw"/>
+                        <outlet property="delegate" destination="-1" id="hVd-i2-DtY"/>
+                    </connections>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics">
+                <size key="portraitSize" width="320" height="480"/>
+                <size key="landscapeSize" width="480" height="320"/>
+            </simulatedScreenMetrics>
         </view>
     </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4">
+            <size key="portraitSize" width="320" height="568"/>
+            <size key="landscapeSize" width="568" height="320"/>
+        </simulatedScreenMetrics>
+    </simulatedMetricsContainer>
 </document>

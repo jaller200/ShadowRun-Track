@@ -15,4 +15,6 @@
     #import <Foundation/Foundation.h>
 
     #define IS_IPHONE_5 [[UIScreen mainScreen] bounds].size.height == (double)568 ? YES : NO
+
+    #import "ShadowRunAppDelegate.h"
 #endif
